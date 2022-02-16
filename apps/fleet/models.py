@@ -1,5 +1,7 @@
+from datetime import datetime
 from sqlite3 import Date
 from sre_parse import Verbose
+from xml.etree.ElementTree import Comment
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -37,10 +39,9 @@ class VehicleManufacturer(models.Model):
 
 #TODO: agregar medida (km/milla) 
 #TODO: Agregar el rendimiento ideal: l/Km
-#TODO: Cambiar Year por Line, la linea del vehiculo, en lugar del año
+#TODO: Cambiar Year por Line, la linea del vehiculo, en lugar del año NO PROCEDE
 #TODO: Se requiere una clase para controlar la distribuciòn de itinerarios de los vehiculos
 #          issue-> Itinerary -> ScheduleItinerary(Global)
-#TODO: Cambiar Motor por Engine, EngineSerial
 
 class Vehicle(models.Model):
     Manufacturer=models.ForeignKey(VehicleManufacturer,on_delete=models.SET_NULL,null=True)
@@ -54,7 +55,7 @@ class Vehicle(models.Model):
     Transmission=models.SmallIntegerField(choices=TRANSMISSION_TYPE,help_text='Tipo de transmisión',verbose_name='Transmision')
     Motor=models.CharField(max_length=30,help_text='Detalle de motor',verbose_name='Motor')
     SerialNumber=models.CharField(max_length=30,help_text='Numero de serie',verbose_name='NS')
-    MotorSerialNumber=models.CharField(max_length=30,help_text='Serie del motor',verbose_name='NS Motor')
+    EngineSerialNumber=models.CharField(max_length=30,help_text='Serie del motor',verbose_name='NS Motor')
     Group=models.ForeignKey(Group,on_delete=models.SET_NULL,null=True)
     def __str__(self):
         return self.FriendlyName
@@ -70,20 +71,23 @@ class DocumentType(models.Model):
     pass
 class Driver(models.Model):
     Employ=models.ForeignKey(Employ,on_delete=models.SET_NULL,null=True)
-    Comments=models.CharField(max_length=300,help_text='Comentarios sobre el conductor',verbose_name='Observaciones')
+    Comments=models.CharField(max_length=300,help_text='Comentarios sobre el conductor',verbose_name='Observaciones',blank=True,default='')
 
-    pass
+    def __str__(self):
+        return str(self.Employ)
+
 class Agency(models.Model):
     pass
 class Issue(models.Model):
-    Date=models.DateField(verbose_name='Fecha',help_text='Fecha del Evento')
-    Time=models.TimeField(verbose_name='Hora', help_text='Hora del evento')
+    Date=models.DateField(verbose_name='Fecha',help_text='Fecha del Evento',auto_now=False,default=datetime.now)
+    Time=models.TimeField(verbose_name='Hora', help_text='Hora del evento',default=datetime.now,blank=True)
     #Classification=models.SmallIntegerField(choices=ISSUE_CLASS,help_text='Tipo de Evento',verbose_name='Evento')
-    Type=models.SmallIntegerField(choices=ISSUE_TYPE,help_text='Tipo de evento',verbose_name='Tipo')
+    Type=models.SmallIntegerField(choices=ISSUE_TYPE,help_text='Tipo de evento',verbose_name='Tipo',default=1,null=True)
     Description=models.CharField(max_length=100,help_text='Descripción del evento',verbose_name='Descripción',blank=True)
     Vehicle=models.ForeignKey(Vehicle,on_delete=models.SET_NULL,null=True)
     Driver=models.ForeignKey(Driver,on_delete=models.SET_NULL,null=True)
-    CreatedBy=models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
+    created_by=models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
+    created_on=models.DateTimeField(auto_now_add=True,blank=True,null=True)
 
     pass
 # El tipo puede ser una lista fija
