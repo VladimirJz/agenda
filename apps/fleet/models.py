@@ -1,9 +1,9 @@
 from datetime import datetime
 from sqlite3 import Date
 from sre_parse import Verbose
-from xml.etree.ElementTree import Comment
 from django.db import models
 from django.contrib.auth.models import User
+from django.forms import CharField
 
 from apps.company.models import Employ
 
@@ -14,7 +14,8 @@ from apps.company.models import Employ
 
 #Catalogos
 TRANSMISSION_TYPE=[(1,'Manual'),(2,'Automática'),(3,'CVT'),(4,'Semiautomática'),(5,'Dual-Cluth')]
-ISSUE_TYPE=[(1,'Itinerario de Viaje'),(2,'Suministro de Combustible'),(3,'Suministro interno'),(4,'Mantenimiento'),(5,'Hecho de transito')]
+EVENT_TYPE=[(1,'Itinerario de Viaje'),(2,'Suministro de Combustible'),(3,'Suministro interno'),(4,'Mantenimiento'),(5,'Hecho de transito'),(6,'Reporte de Falla')]
+FUEL_TYPE=[(1,'Gasolina'),(2,'Diesel')]
 # Create your models here.
 class Group(models.Model):
     GroupName=models.CharField(max_length=30,help_text='Grupo vehicular',verbose_name='Grupo')
@@ -37,10 +38,12 @@ class VehicleManufacturer(models.Model):
         return self.ManufacturerName + '-' + self.Brand
 
 
-#TODO: agregar medida (km/milla) 
+#TODO: agregar Medidad de uso (km/milla/hora) / medida de combustible
+
 #TODO: Agregar el rendimiento ideal: l/Km
 #TODO: Cambiar Year por Line, la linea del vehiculo, en lugar del año NO PROCEDE
 #TODO: Se requiere una clase para controlar la distribuciòn de itinerarios de los vehiculos
+#TODO: Gestionar el estatus del vehiculo (asignado/talller/fuera de servicio/disponible)
 #          issue-> Itinerary -> ScheduleItinerary(Global)
 
 class Vehicle(models.Model):
@@ -54,6 +57,7 @@ class Vehicle(models.Model):
     EnrollmentID=models.CharField(max_length=12,help_text='Matricula Vehicular',verbose_name='Matricula')
     Transmission=models.SmallIntegerField(choices=TRANSMISSION_TYPE,help_text='Tipo de transmisión',verbose_name='Transmision')
     Motor=models.CharField(max_length=30,help_text='Detalle de motor',verbose_name='Motor')
+    FuelType=models.SmallIntegerField(choices=FUEL_TYPE,verbose_name='Tipo de Combustible',help_text='Tipo de combustible',default=1)
     SerialNumber=models.CharField(max_length=30,help_text='Numero de serie',verbose_name='NS')
     EngineSerialNumber=models.CharField(max_length=30,help_text='Serie del motor',verbose_name='NS Motor')
     Group=models.ForeignKey(Group,on_delete=models.SET_NULL,null=True)
@@ -78,33 +82,74 @@ class Driver(models.Model):
 
 class Agency(models.Model):
     pass
-class Issue(models.Model):
+class Event(models.Model):
     Date=models.DateField(verbose_name='Fecha',help_text='Fecha del Evento',auto_now=False,default=datetime.now)
     Time=models.TimeField(verbose_name='Hora', help_text='Hora del evento',default=datetime.now,blank=True)
     #Classification=models.SmallIntegerField(choices=ISSUE_CLASS,help_text='Tipo de Evento',verbose_name='Evento')
-    Type=models.SmallIntegerField(choices=ISSUE_TYPE,help_text='Tipo de evento',verbose_name='Tipo',default=1,null=True)
+    Type=models.SmallIntegerField(choices=EVENT_TYPE,help_text='Tipo de evento',verbose_name='Tipo',default=1,null=True)
     Description=models.CharField(max_length=100,help_text='Descripción del evento',verbose_name='Descripción',blank=True)
     Vehicle=models.ForeignKey(Vehicle,on_delete=models.SET_NULL,null=True)
     Driver=models.ForeignKey(Driver,on_delete=models.SET_NULL,null=True)
     created_by=models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
     created_on=models.DateTimeField(auto_now_add=True,blank=True,null=True)
+    def __str__(self):
+        return str(self.Type) + ' ' + self.Description + ' - ' + str(self.Vehicle)
 
     pass
 # El tipo puede ser una lista fija
-class IssueType(models.Model):
-    pass
+
 
 # Tipos de  Eventos:
+
+# catalogo interno configurable por la empresa
+class Supplie(models.Model):
+    SupplieName=models.CharField(max_length=30,verbose_name='Nombre',help_text='Nombre del suministro')
+    Description=models.CharField(max_length=30,verbose_name='Descripción',help_text='Descripción del articulo')
+    Stock=models.SmallIntegerField(verbose_name='Existencias',help_text='Unidades disponibles')
+    CostPerUnit=models.DecimalField(decimal_places=2,max_digits=6, verbose_name='Costo por unidad',help_text='Costo por unidad',default=0.0)
+    def __str__(self):
+        return self.SupplieName
+
+
+# Suministros internos para viaje
 class Supply(models.Model):
-    pass
-class TrafficIncident(models.Model):
-    pass
-class Maintenance(models.Model):
-    pass
-class Itinerary(models.Model):
+    Event=models.ForeignKey(Event,on_delete=models.SET_NULL,null=True)
+    Supplie=models.ForeignKey(Supplie,on_delete=models.SET_NULL,null=True)
+    Quantity=models.PositiveSmallIntegerField(verbose_name='Cantidad',help_text='Cantidad')
+    Cost=models.DecimalField(decimal_places=2,max_digits=6, verbose_name='Costo',help_text='Costo',default=0.0)
+    def __str__(self):
+        return str(self.Event) + ' - ' + str(self.Supplie)
+  
+
+# Suministro de Combustible
+class FuelSupply(models.Model):
+    Event=models.ForeignKey(Event,on_delete=models.SET_NULL,null=True)
+    Type=models.SmallIntegerField(choices=FUEL_TYPE,verbose_name='Tipo de Combustible',help_text='Tipo de combustible',default=1)
+    GaugeFuel=models.PositiveSmallIntegerField(verbose_name='Indicador de combustible',help_text='Porcentaje de combustible en el Tanque',default=0)
+    #FullTank=models.BooleanField(default=False,verbose_name='Tanque lleno?',help_text='Se llena el tanque con la carga de combustible')
+    Quantity=models.PositiveSmallIntegerField(verbose_name='Existencias',help_text='Unidades disponibles',default=0)
+    CostPerUnit=models.DecimalField(decimal_places=2,max_digits=6, verbose_name='Costo por unidad',help_text='Costo por unidad',default=0.0)
+    Odometer=models.PositiveIntegerField(verbose_name='Indicador de recorrido.',help_text='Medición del odometro',default=0)
+    Comments=models.CharField(max_length=300,verbose_name='Comentarios',help_text='Comentarios / Referencia',null=True)
+
+
     pass
 
+
+
+# Incidente de Trafico
+class TrafficIncident(models.Model):
+    pass
+# Mantenimiento (preventivo/Correctivo)
+class Maintenance(models.Model):
+    pass
+# Itinirario de Viaje
+class Itinerary(models.Model):
+    pass
+# Derechos (alta /baja/ Vencimientos de Derechos / )
 class Rigths(models.Model):
     pass
-    
+#Reportes 
+class Issue(models.Model):
+    pass
 

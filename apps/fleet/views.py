@@ -1,6 +1,10 @@
+from multiprocessing import Event
 from typing import Literal
 from django.shortcuts import render
-from django.views.generic import TemplateView,ListView
+from django.views.generic import TemplateView,ListView,CreateView
+from django.contrib.messages.views import SuccessMessageMixin
+from apps.fleet.forms import NewEventForm
+
 from apps.fleet.models import Vehicle,VehicleClasification
 from django.db.models import F
 from itertools import chain
@@ -37,6 +41,11 @@ class index(ListView):
         context['options']=options
         return context
     
-#result_list = list(chain(page_list, article_list, post_list))
+
+class EventCreateView(SuccessMessageMixin,CreateView):
+    model = Event
+    template_name = 'fleet/event_new.html'
+    form_class = NewEventForm
+    
 
 # Create your views here.

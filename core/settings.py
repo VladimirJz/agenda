@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'floppyforms',
     'apps.home',  # Enable the inner home (home)
     'apps.company',
     'apps.fleet',
