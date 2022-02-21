@@ -16,6 +16,8 @@ from apps.company.models import Employ
 TRANSMISSION_TYPE=[(1,'Manual'),(2,'Automática'),(3,'CVT'),(4,'Semiautomática'),(5,'Dual-Cluth')]
 EVENT_TYPE=[(1,'Itinerario de Viaje'),(2,'Suministro de Combustible'),(3,'Suministro interno'),(4,'Mantenimiento'),(5,'Hecho de transito'),(6,'Reporte de Falla')]
 FUEL_TYPE=[(1,'Gasolina'),(2,'Diesel')]
+SEVERITY_TYPE=[(1,'Estetico'),(2,'Menor'),(3,'Moderada'),(4,'Mayor'),(5,'Crítica')]
+MAINTENANCE_TYPE=[(1,'Preventivo'),(2,'Correctivo')]
 # Create your models here.
 class Group(models.Model):
     GroupName=models.CharField(max_length=30,help_text='Grupo vehicular',verbose_name='Grupo')
@@ -87,7 +89,7 @@ class Event(models.Model):
     Time=models.TimeField(verbose_name='Hora', help_text='Hora del evento',default=datetime.now,blank=True)
     #Classification=models.SmallIntegerField(choices=ISSUE_CLASS,help_text='Tipo de Evento',verbose_name='Evento')
     Type=models.SmallIntegerField(choices=EVENT_TYPE,help_text='Tipo de evento',verbose_name='Tipo',default=1,null=True)
-    Description=models.CharField(max_length=100,help_text='Descripción del evento',verbose_name='Descripción',blank=True)
+    Description=models.CharField(max_length=100, help_text='Descripción del evento',verbose_name='Descripción',blank=True)
     Vehicle=models.ForeignKey(Vehicle,on_delete=models.SET_NULL,null=True)
     Driver=models.ForeignKey(Driver,on_delete=models.SET_NULL,null=True)
     created_by=models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
@@ -139,17 +141,52 @@ class FuelSupply(models.Model):
 
 # Incidente de Trafico
 class TrafficIncident(models.Model):
+    Event=models.ForeignKey(Event,on_delete=models.SET_NULL,null=True)
+    TicketID=models.CharField(max_length=20,verbose_name='Folio de Multa',help_text='ID del Ticket de transitoo')
+    Descrition=models.TextField(max_length=300,verbose_name='Descripciòn',help_text='Descripciòn del incidente')
+    City=models.TextField(max_length=100, verbose_name='Ciudad',help_text='Ciudad')
+    Stret=models.TextField(max_length=100,verbose_name='Calle',help_text='Calle')
+    BetweenStreet=models.TextField(max_length=300,verbose_name='Entrecalles',help_text='Entrecalles')
+    Severity=models.SmallIntegerField(choices=SEVERITY_TYPE,null=True)
+    InsuranceReportID=models.TextField(max_length=10,verbose_name='Reporte Aseguradora',help_text='ID de Reporte Aseguradora')
+    InjuredPeople=models.BooleanField(default=False,verbose_name='Lesiones?',help_text='Existen personsas lesionadas?')
+    ArrestedDriver=models.BooleanField(default=False,verbose_name='Detenido?',help_text='Fue detenido el conductor?')
+    DisableVehicle=models.BooleanField(default=False,verbose_name='Vehiculo deshabilitado?',help_text='Fue inhabilitado el vehiculo?')
+
+
+
     pass
+
+#Reportes 
+class Issue(models.Model):
+    pass
+
+# Estos eventos se pueden relacional con una programación
 # Mantenimiento (preventivo/Correctivo)
+class MaintenanceTask(models.Model):
+    TaskName=models.CharField(max_length=30,verbose_name='Actividad',help_text='Actividad o rutina de mantenimiento')
+    Type=models.SmallIntegerField(choices=MAINTENANCE_TYPE,default=1,verbose_name='Tipo',help_text='Tipo de mantenimiento')
+    Schedulable=models.BooleanField(default=False,verbose_name='Programable?',help_text='¿Se programa periodicamente?')
+    Description=models.CharField(max_length=300,verbose_name='Descripción',help_text='Descripción')
+
+
 class Maintenance(models.Model):
+    Event=models.ForeignKey(Event,on_delete=models.SET_NULL,null=True)
+    #Taller#Mecanico
+    #
+class MaintenanceDetail(models.Model):
+    Maintenance=models.ForeignKey(Maintenance,on_delete=models.SET_NULL,null=True)
+    Task=models.ForeignKey(MaintenanceTask,on_delete=models.SET_NULL,null=True)
+
+
+
+
     pass
 # Itinirario de Viaje
 class Itinerary(models.Model):
     pass
+
 # Derechos (alta /baja/ Vencimientos de Derechos / )
 class Rigths(models.Model):
-    pass
-#Reportes 
-class Issue(models.Model):
     pass
 
