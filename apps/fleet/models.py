@@ -18,6 +18,7 @@ EVENT_TYPE=[(1,'Itinerario de Viaje'),(2,'Suministro de Combustible'),(3,'Sumini
 FUEL_TYPE=[(1,'Gasolina'),(2,'Diesel')]
 SEVERITY_TYPE=[(1,'Estetico'),(2,'Menor'),(3,'Moderada'),(4,'Mayor'),(5,'Crítica')]
 MAINTENANCE_TYPE=[(1,'Preventivo'),(2,'Correctivo')]
+VEHICLE_STATUS=(1,'Disponible'),(2,'En ruta'), (3,'En reparación / Detenido'),(4,'Baja'),
 # Create your models here.
 class Group(models.Model):
     GroupName=models.CharField(max_length=30,help_text='Grupo vehicular',verbose_name='Grupo')
@@ -63,6 +64,7 @@ class Vehicle(models.Model):
     SerialNumber=models.CharField(max_length=30,help_text='Numero de serie',verbose_name='NS')
     EngineSerialNumber=models.CharField(max_length=30,help_text='Serie del motor',verbose_name='NS Motor')
     Group=models.ForeignKey(Group,on_delete=models.SET_NULL,null=True)
+    Status=models.SmallIntegerField(choices=VEHICLE_STATUS,default=1,blank=True)
     def __str__(self):
         return self.FriendlyName
     def Options(self):
@@ -142,13 +144,13 @@ class FuelSupply(models.Model):
 # Incidente de Trafico
 class TrafficIncident(models.Model):
     Event=models.ForeignKey(Event,on_delete=models.SET_NULL,null=True)
-    TicketID=models.CharField(max_length=20,verbose_name='Folio de Multa',help_text='ID del Ticket de transitoo')
-    Descrition=models.TextField(max_length=300,verbose_name='Descripciòn',help_text='Descripciòn del incidente')
-    City=models.TextField(max_length=100, verbose_name='Ciudad',help_text='Ciudad')
-    Stret=models.TextField(max_length=100,verbose_name='Calle',help_text='Calle')
-    BetweenStreet=models.TextField(max_length=300,verbose_name='Entrecalles',help_text='Entrecalles')
+    TicketID=models.CharField(max_length=20,verbose_name='Folio de Multa',help_text='ID del Ticket de transito',null=True)
+    Descrition=models.TextField(max_length=300,verbose_name='Descripciòn',help_text='Descripciòn del incidente',null=True)
+    City=models.TextField(max_length=100, verbose_name='Ciudad',help_text='Ciudad',null=True)
+    Street=models.TextField(max_length=100,verbose_name='Calle',help_text='Calle',null=True)
+    BetweenStreet=models.TextField(max_length=300,verbose_name='Entrecalles',help_text='Entrecalles',null=True)
     Severity=models.SmallIntegerField(choices=SEVERITY_TYPE,null=True)
-    InsuranceReportID=models.TextField(max_length=10,verbose_name='Reporte Aseguradora',help_text='ID de Reporte Aseguradora')
+    InsuranceReportID=models.TextField(max_length=10,verbose_name='Reporte Aseguradora',help_text='ID de Reporte Aseguradora',null=True)
     InjuredPeople=models.BooleanField(default=False,verbose_name='Lesiones?',help_text='Existen personsas lesionadas?')
     ArrestedDriver=models.BooleanField(default=False,verbose_name='Detenido?',help_text='Fue detenido el conductor?')
     DisableVehicle=models.BooleanField(default=False,verbose_name='Vehiculo deshabilitado?',help_text='Fue inhabilitado el vehiculo?')

@@ -32,10 +32,89 @@
 				</ul>
 			</div>
 			<div class="row">
+				<div class="col-sm-6 col-md-3">
+					<div class="card card-stats card-round">
+						<div class="card-body ">
+							<div class="row">
+								<div class="col-5">
+									<div class="icon-big text-center">
+										<i class="flaticon-folder text-warning"></i>
+									</div>
+								</div>
+								<div class="col-7 col-stats">
+									<div class="numbers">
+										<p class="card-category">Flota</p>
+										<h4 class="card-title">{{resume.all}}</h4>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6 col-md-3">
+					<div class="card card-stats card-round">
+						<div class="card-body ">
+							<div class="row">
+								<div class="col-5">
+									<div class="icon-big text-center">
+										<i class="flaticon-delivery-truck text-success"></i>
+									</div>
+								</div>
+								<div class="col-7 col-stats">
+									<div class="numbers">
+										<p class="card-category">Disponibles</p>
+										<h4 class="card-title">{{resume.availables}}</h4>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6 col-md-3">
+					<div class="card card-stats card-round">
+						<div class="card-body">
+							<div class="row">
+								<div class="col-5">
+									<div class="icon-big text-center">
+										<i class="flaticon-placeholder text-success"></i>
+									</div>
+								</div>
+								<div class="col-7 col-stats">
+									<div class="numbers">
+										<p class="card-category">En Ruta</p>
+										<h4 class="card-title">{{resume.on_road}}</h4>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6 col-md-3">
+					<div class="card card-stats card-round">
+						<div class="card-body">
+							<div class="row">
+								<div class="col-5">
+									<div class="icon-big text-center">
+										<i class="flaticon-alarm-1 text-danger"></i>
+									</div>
+								</div>
+								<div class="col-7 col-stats">
+									<div class="numbers">
+										<p class="card-category">Detenidos</p>
+										<h4 class="card-title">{{resume.stopped}}</h4>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row">
 				<div class="col-md-12">
 					<div class="card">
 						<div class="card-header">
-							<h4 class="card-title">Vehiculos disponibles</h4>
+							<h4 class="card-title">Listado de vehiculos</h4>
 						</div>
 
 						<div class="card-body">
@@ -58,15 +137,32 @@
 											{% for value in object.values %}<td>{{ value }}</td>{% endfor %}
 											{% if options %}
 												<td>
-												{%for option in options%}	
-													<a href="{{option.url}}" alt="{{option.alt}}">
-														<i class="{{option.ico}}""></i>
-													</a>
-													&nbsp;
-												{% endfor %}
+													<button class="btn btn-primary btn-border dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-thumbtack"></i></button>
+													<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(140px, 43px, 0px); top: 0px; left: 0px; will-change: transform;">
+														{%for option in options%}	
+														<a class="dropdown-item" href=""{{option.url}}"> 
+														<div class="row">
+															<div></div>
+															<div class="col-sm-2"><i class="{{option.ico}}"></i></div> &nbsp;&nbsp; {{option.alt}}
+															<div class="col-sm-6 text-left">
+															</div>
+														</div>
+														</a>
+														<!-- <a href="{{option.url}}" alt="{{option.alt}}">
+															<i class="{{option.ico}}""></i> 
+														</a> -->
+
+														{% endfor %}
+														<div role="separator" class="dropdown-divider"></div>
+														<a class="dropdown-item" href="#"><i class="fas fa-clipboard-list"></i>  &nbsp;&nbsp; Ver detalle</a>
+
+													<!-- <a class="dropdown-item" href="#">.. Mantenimiento</a>
+													<a class="dropdown-item" href="#">..Otro</a> -->
+												</div>
 												</td>
 											{% endif %}
 											</tr>
+
 									{% endfor %}
 										</tbody>
 								</table>

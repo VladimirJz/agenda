@@ -6,7 +6,7 @@ from apps.fleet.views import EventCreateView, index
 
 urlpatterns=[
             path('vehicle/',index.as_view(),name='index'),
-            path('events/new/',EventCreateView.as_view(),name='event_new'),#servernew
+            path('vehicle/event/',EventCreateView.as_view(),name='event_new'),#servernew
 
             ]
 
