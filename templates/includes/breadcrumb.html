@@ -1,0 +1,44 @@
+<!-- <div class="container-sm">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        {% for key, value in breadcrumb.items %} 
+        <li class="breadcrumb-item"  {% ifequal key  '#' %}  aria-current="page"  {% endifequal  %} >
+          {% ifnotequal  key  '#' %} 
+            <a href="{% url key %}">
+          {% endifnotequal  %}
+          {{ value |upper}}</a></li>        
+        {% endfor %}
+
+      </ol>
+    </nav>
+</div> -->
+<ul class="breadcrumbs">
+    <i class="flaticon-home"></i>
+    {% for key, value in breadcrumb.items %} 
+    <li class="separator">
+        <i class="flaticon-right-arrow"></i>
+    <li class="nav-home" {% ifequal key  '#' %}  aria-current="page"  {% endifequal  %}>
+        {% ifnotequal  key  '#' %} 
+        <a href="{% url key %}">
+            {% endifnotequal  %}
+            
+            {{ value |title}}
+        </a>     
+    </li>
+    {% endfor %}
+</ul>  
+
+<!-- 
+<li class="separator">
+        <i class="flaticon-right-arrow"></i>
+    </li>
+    <li class="nav-item">
+        <a href="#">Control Vehicular</a>
+    </li>
+    <li class="separator">
+        <i class="flaticon-right-arrow"></i>
+    </li>
+    <li class="nav-item">
+        <a href="#">Vehiculos</a>
+    </li>
+</ul> -->

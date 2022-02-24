@@ -1,5 +1,5 @@
 {% extends "layouts/base.html" %}
-
+{% load core_extras %}
 {% block title %} UI Datatables {% endblock %} 
 
 <!-- Specific Page CSS goes HERE  -->
@@ -11,26 +11,10 @@
 		<div class="page-inner">
 			<div class="page-header">
 				<h4 class="page-title">Vehiculos</h4>
-				<ul class="breadcrumbs">
-					<li class="nav-home">
-						<a href="#">
-							<i class="flaticon-home"></i>
-						</a>
-					</li>
-					<li class="separator">
-						<i class="flaticon-right-arrow"></i>
-					</li>
-					<li class="nav-item">
-						<a href="#">Control Vehicular</a>
-					</li>
-					<li class="separator">
-						<i class="flaticon-right-arrow"></i>
-					</li>
-					<li class="nav-item">
-						<a href="#">Vehiculos</a>
-					</li>
-				</ul>
+				{% include 'includes/breadcrumb.html' %}
+	
 			</div>
+			<!-- Cards -->
 			<div class="row">
 				<div class="col-sm-6 col-md-3">
 					<div class="card card-stats card-round">
@@ -110,11 +94,13 @@
 				</div>
 			</div>
 			
+			<!-- endcards -->
+
 			<div class="row">
 				<div class="col-md-12">
 					<div class="card">
 						<div class="card-header">
-							<h4 class="card-title">Listado de vehiculos</h4>
+							<h4 class="card-title">Seleccionar vehiculo</h4>
 						</div>
 
 						<div class="card-body">
@@ -134,13 +120,16 @@
 											<tbody>
 										{% endif %}
 											<tr>
-											{% for value in object.values %}<td>{{ value }}</td>{% endfor %}
+												{{object.values}}
+											{% for value in object.values %}
+												<td>{{ value }}</td>
+											{% endfor %}
 											{% if options %}
 												<td>
 													<button class="btn btn-primary btn-border dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-thumbtack"></i></button>
 													<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(140px, 43px, 0px); top: 0px; left: 0px; will-change: transform;">
 														{%for option in options%}	
-														<a class="dropdown-item" href=""{{option.url}}"> 
+														<a class="dropdown-item" href="{{option.url}}{{	object | get_value:object.id }}"> 
 														<div class="row">
 															<div></div>
 															<div class="col-sm-2"><i class="{{option.ico}}"></i></div> &nbsp;&nbsp; {{option.alt}}
@@ -171,9 +160,8 @@
 						</div>
 					</div>
 				</div>
-
-
 			</div>
+			<!-- -->
 		</div>
 	</div>
 

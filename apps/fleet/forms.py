@@ -14,12 +14,12 @@ class NewEventForm(forms.ModelForm):
 class EventForm(forms.ModelForm):
    class Meta:
       model=Event
-      fields=('all')
+      fields=('__all__')
 
 # detailed event / activity form
 class FuelSupplyForm(forms.ModelForm):
    class Meta:
       model=FuelSupply
-      fields=('all')
+      fields=('__all__')
 
    
