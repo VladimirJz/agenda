@@ -20,7 +20,7 @@
 				<div class="col-md-12">
 					<div class="card">
 						<div class="card-header">
-							<h4 class="card-title">{{ vehicle.FriendlyName }}</h4>
+							<h4 class="card-title">{{ vehicle.FriendlyName }} -[{{vehicle.VehiclePlate}}]</h4>
 						</div>
 
 						<div class="card-body">
@@ -28,10 +28,55 @@
                         <form method="POST">
                             <input name="vehicle_id" type="hidden" value={{ vehicle.id }} />
                             {% csrf_token %}
+                            <div class="form-row">
+                                <div class="form-group-sm col-md-2">
+                                    {% formrow event_form.Date %}
+                                </div>
+                                <div class="form-group-sm col-md-3">
+                                    {% formrow event_form.Time %}
+                                </div>
+                                <div class="form-group-sm col-md-3">
+                                    {% formrow event_form.Driver %}
+                                
+                                </div>
+                                <div class="form-group-sm col-md-4">                                
+                                </div>
+                            </div>
+                        
+
+                            <div class="form-row">
+                               
+                                <div class="form-group-sm col-md-3">
+                                    {% formrow fuelsupply_form.Type %}                                    
+                                </div>
+                                <div class="form-group-sm col-md-3">
+                                    {% formrow fuelsupply_form.Quantity %}
+                                </div>
+                                <div class="form-group-sm col-md-2">
+                                    {% formrow fuelsupply_form.CostPerUnit %}
+                                
+                                </div>
+                                
+                                <div class="form-group-sm col-md-4">                                
+                                </div>
+                              
+                            </div>
+
                             
-                {{ event_form.as_p }}
-                {{ fuelsupply_form.as_p }}
-                        <input type="submit" class='btn btn-success' name="Guardar"></form> 
+                            <div class="form-row">
+                                <div class="form-group-sm col-md-3">
+                                    {% formrow fuelsupply_form.GaugeFuel %}
+                                </div>
+                                <div class="form-group-sm col-md-3">
+                                    {% formrow fuelsupply_form.Odometer %}
+                                </div>
+                                <div class="form-group-sm col-md-6">
+                                    {% formrow fuelsupply_form.Comments %}
+                                
+                                </div>
+                            </div>
+
+                        <input type="submit" class='btn btn-success' value="Guardar"></form> 
                         </form>
 <!--  end content -->
 <!-- footer -->
