@@ -10,16 +10,19 @@ class NewEventForm(forms.ModelForm):
         model = Event
         fields = ('__all__')
 
+
 # generic event form
 class EventForm(forms.ModelForm):
    class Meta:
       model=Event
-      fields=('__all__')
+      exclude = ['Type','Vehicle','created_by']
+      #fields=('__all__')
 
 # detailed event / activity form
 class FuelSupplyForm(forms.ModelForm):
    class Meta:
       model=FuelSupply
-      fields=('__all__')
+      exclude=['Event']
+      #fields=('__all__')
 
    

@@ -131,7 +131,7 @@ class FuelSupply(models.Model):
     Type=models.SmallIntegerField(choices=FUEL_TYPE,verbose_name='Tipo de Combustible',help_text='Tipo de combustible',default=1)
     GaugeFuel=models.PositiveSmallIntegerField(verbose_name='Indicador de combustible',help_text='Porcentaje de combustible en el Tanque',default=0)
     #FullTank=models.BooleanField(default=False,verbose_name='Tanque lleno?',help_text='Se llena el tanque con la carga de combustible')
-    Quantity=models.PositiveSmallIntegerField(verbose_name='Existencias',help_text='Unidades disponibles',default=0)
+    Quantity=models.PositiveSmallIntegerField(verbose_name='Cantidad',help_text='Unidades disponibles',default=0)
     CostPerUnit=models.DecimalField(decimal_places=2,max_digits=6, verbose_name='Costo por unidad',help_text='Costo por unidad',default=0.0)
     Odometer=models.PositiveIntegerField(verbose_name='Indicador de recorrido.',help_text='Medición del odometro',default=0)
     Comments=models.CharField(max_length=300,verbose_name='Comentarios',help_text='Comentarios / Referencia',null=True)
