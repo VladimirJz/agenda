@@ -9,6 +9,7 @@ from django.db.models import F
 from itertools import chain
 from django.db.models import Count
 from django.contrib import messages
+from django.urls import reverse
 
 from apps.utils import Site
 from apps.fleet.forms import NewEventForm,EventForm,FuelSupplyForm
@@ -50,7 +51,7 @@ class index(ListView):
         # Add in 
         app='catalog'
         menu='tables'
-        current_url = self.request.resolver_match.url_name
+        #current_url = self.request.resolver_match.url_name
         breadcrumb=Site.Breadcrumb(self)
         context['breadcrumb']=breadcrumb
 
@@ -86,14 +87,18 @@ class EventCreateView_(SuccessMessageMixin,CreateView):
     template_name = 'fleet/event_new.html'
     form_class = NewEventForm
 
-class FuelSupplyCreateView(SuccessMessageMixin,TemplateView):
+class FuelSupplyCreateView(TemplateView,SuccessMessageMixin):
     FUEL_SUPPLY=2
     event_form_class=EventForm
     fuesupply_form_class=FuelSupplyForm
     template_name='fleet/fuelsupply_create.html'
+    #model=Event
     vehicle=Vehicle
     fuel_supply=FuelSupply
     success_message = "Server %(Server)s was registered successfully"
+
+    def get_success_url(self):
+        return reverse('flota_vehiculos')
 
     
     def get_context_data(self, **kwargs):
@@ -101,6 +106,10 @@ class FuelSupplyCreateView(SuccessMessageMixin,TemplateView):
         context = super().get_context_data(**kwargs)
         self.vehicle=Vehicle.objects.get(id=self.kwargs['pk'])
         context["vehicle"]=self.vehicle
+        app='fleet'
+        menu='fuelsupply'
+        breadcrumb=Site.Breadcrumb(self)
+        context['breadcrumb']=breadcrumb
         return context
 
     def post(self, request,pk):
@@ -123,7 +132,8 @@ class FuelSupplyCreateView(SuccessMessageMixin,TemplateView):
                 new_fuelsupply.Event=new_event
                 new_fuelsupply.save()
 
-        return self.render_to_response(context)     
+        #return self.render_to_response(context)    
+        return redirect ('flota_vehiculos')
 
             #return redirect('flota_vehiculos')     
         #return render_to_response(context)

@@ -183,6 +183,7 @@ class MaintenanceDetail(models.Model):
 
 
 
+
     pass
 # Itinirario de Viaje
 class Itinerary(models.Model):
@@ -192,3 +193,9 @@ class Itinerary(models.Model):
 class Rigths(models.Model):
     pass
 
+
+# Historico
+class FuelPerformace(models.Model):
+    #Date=models.DateField(verbose_name='Fecha',help_text='Fecha')
+    #InitOdometer=models.
+    pass

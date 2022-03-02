@@ -24,7 +24,8 @@
 						</div>
 
 						<div class="card-body">
-<!---  Content here ! -->
+<!---  Content here ! -->                  {% include 'includes/messages.html' %}
+
                         <form method="POST">
                             <input name="vehicle_id" type="hidden" value={{ vehicle.id }} />
                             {% csrf_token %}
@@ -76,7 +77,8 @@
                                 </div>
                             </div>
 
-                        <input type="submit" class='btn btn-success' value="Guardar"></form> 
+                        <input type="submit" class='btn btn-success' value="Guardar"></input> 
+                        <a href="{% url 'flota_vehiculos' %}" type="button" class="btn btn-default">Cancelar</a>
                         </form>
 <!--  end content -->
 <!-- footer -->
