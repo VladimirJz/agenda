@@ -10,6 +10,7 @@ from itertools import chain
 from django.db.models import Count
 from django.contrib import messages
 from django.urls import reverse
+from django.contrib import messages
 
 from apps.utils import Site
 from apps.fleet.forms import NewEventForm,EventForm,FuelSupplyForm
@@ -131,6 +132,7 @@ class FuelSupplyCreateView(TemplateView,SuccessMessageMixin):
                 new_fuelsupply=fuelsupply_form.save(commit=False)
                 new_fuelsupply.Event=new_event
                 new_fuelsupply.save()
+                messages.add_message(request, messages.SUCCESS,"Registro Agregado correctamente!")
 
         return self.render_to_response(context)    
         #return redirect ('flota_vehiculos')
@@ -150,6 +152,5 @@ class FuelSupplyCreateView(TemplateView,SuccessMessageMixin):
          
 
     pass
-    
 
 # Create your views here.

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from apps.fleet.models import FUEL_TYPE, Driver, FuelSupply, Supplie, Supply, Vehicle,VehicleClasification,VehicleManufacturer,Group,Event
+from apps.fleet.models import FUEL_TYPE, Driver, FuelSupply, Supplie, Supply, Vehicle,VehicleClasification,VehicleManufacturer,Group,Event,FuelConsumption
 # Register your models here.
 
 class VehicleAdmin(admin.ModelAdmin):
@@ -10,6 +10,8 @@ class EventAdmin(admin.ModelAdmin):
 
 class FuelSupplyAdmin(admin.ModelAdmin):
     list_display=('id','Type')
+class FuelConsumptionAdmin(admin.ModelAdmin):
+    list_display=('StartDate','EndDate','InitialTravelReading','FinalTravelReading')
 
 admin.site.register(Vehicle,VehicleAdmin)
 admin.site.register(VehicleClasification)
@@ -20,3 +22,4 @@ admin.site.register(Supplie)
 admin.site.register(Supply)
 admin.site.register(FuelSupply,FuelSupplyAdmin)
 admin.site.register(Event,EventAdmin)
+admin.site.register(FuelConsumption,FuelConsumptionAdmin)
