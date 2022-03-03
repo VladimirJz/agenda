@@ -132,8 +132,8 @@ class FuelSupplyCreateView(TemplateView,SuccessMessageMixin):
                 new_fuelsupply.Event=new_event
                 new_fuelsupply.save()
 
-        #return self.render_to_response(context)    
-        return redirect ('flota_vehiculos')
+        return self.render_to_response(context)    
+        #return redirect ('flota_vehiculos')
 
             #return redirect('flota_vehiculos')     
         #return render_to_response(context)

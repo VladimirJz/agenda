@@ -10,7 +10,7 @@ from apps.fleet.views import EventCreateView_, dashboard,index,FuelSupplyCreateV
 # fleet/vehicle/new
 
 urlpatterns=[
-            path('/',dashboard.as_view(),name='flota'),
+            path('',dashboard.as_view(),name='flota'),
             path('vehicles/',index.as_view(),name='flota_vehiculos'),
             path('vehicles/event/',EventCreateView_.as_view(),name='event_new'),
             path('vehicles/fuelsupply/<int:pk>',FuelSupplyCreateView.as_view(),name='flota_vehiculos_combustible')

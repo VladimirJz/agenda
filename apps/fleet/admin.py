@@ -9,7 +9,7 @@ class EventAdmin(admin.ModelAdmin):
     list_display=('id','Vehicle','Date','Type','created_by','created_on')
 
 class FuelSupplyAdmin(admin.ModelAdmin):
-    list_display=('id','Type','GaugeFuel')
+    list_display=('id','Type')
 
 admin.site.register(Vehicle,VehicleAdmin)
 admin.site.register(VehicleClasification)

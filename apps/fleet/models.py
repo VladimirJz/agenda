@@ -129,11 +129,11 @@ class Supply(models.Model):
 class FuelSupply(models.Model):
     Event=models.ForeignKey(Event,on_delete=models.SET_NULL,null=True)
     Type=models.SmallIntegerField(choices=FUEL_TYPE,verbose_name='Tipo de Combustible',help_text='Tipo de combustible',default=1)
-    GaugeFuel=models.PositiveSmallIntegerField(verbose_name='Indicador de combustible',help_text='Porcentaje de combustible en el Tanque',default=0)
+    FuelReading=models.PositiveSmallIntegerField(verbose_name='Indicador de combustible',help_text='Porcentaje de combustible en el Tanque',default=0)
     #FullTank=models.BooleanField(default=False,verbose_name='Tanque lleno?',help_text='Se llena el tanque con la carga de combustible')
     Quantity=models.PositiveSmallIntegerField(verbose_name='Cantidad',help_text='Unidades disponibles',default=0)
     CostPerUnit=models.DecimalField(decimal_places=2,max_digits=6, verbose_name='Costo por unidad',help_text='Costo por unidad',default=0.0)
-    Odometer=models.PositiveIntegerField(verbose_name='Indicador de recorrido.',help_text='Medición del odometro',default=0)
+    TraveledReading=models.PositiveIntegerField(verbose_name='Indicador de recorrido.',help_text='Medición del odometro',default=0)
     Comments=models.CharField(max_length=300,verbose_name='Comentarios',help_text='Comentarios / Referencia',null=True)
 
 
@@ -194,8 +194,23 @@ class Rigths(models.Model):
     pass
 
 
-# Historico
-class FuelPerformace(models.Model):
-    #Date=models.DateField(verbose_name='Fecha',help_text='Fecha')
-    #InitOdometer=models.
+# # Historico
+# class FuelPerformace(models.Model):
+#     #Date=models.DateField(verbose_name='Fecha',help_text='Fecha')
+#     #InitOdometer=models.
+#     pass
+
+    
+class FuelConsumption():
+    FuelSupply=models.ForeignKey(FuelSupply,on_delete=models.SET_NULL,null=True)
+    #Vehicle=models.ForeignKey(Vehicle,on_delete=models.SET_NULL,null=True)
+    Driver=models.ForeignKey(Driver,on_delete=models.SET_NULL,null=True)
+    FuelQuantity=models.PositiveIntegerField(verbose_name='Combustible', help_text='Cantidad de Combustible')
+    StartDate=models.DateField(verbose_name='Inicio',help_text='Inicio de medición')
+    EndDate=models.DateField(verbose_name='Fin',help_text='Final de medición')
+    InitialTravelReading=models.PositiveIntegerField(verbose_name='Lectura inicial',help_text='Lectura inicial del odometro')    
+    FinalTravelReading=models.PositiveIntegerField(verbose_name='Lectura final',help_text='Lectura final del odometro')    
+    FuelEfficiency=models.DecimalField(max_digits=8, decimal_places=2,verbose_name='Eficiencia',help_text='Rendimiento del combustible')
+    AvgFuelEfficiency=models.DecimalField(max_digits=8, decimal_places=2,verbose_name='Eficiencia promedio',help_text='Rendimiento promedio de combustible')
+    
     pass
