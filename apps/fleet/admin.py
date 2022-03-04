@@ -11,7 +11,7 @@ class EventAdmin(admin.ModelAdmin):
 class FuelSupplyAdmin(admin.ModelAdmin):
     list_display=('id','Type')
 class FuelConsumptionAdmin(admin.ModelAdmin):
-    list_display=('StartDate','EndDate','InitialTravelReading','FinalTravelReading')
+    list_display=('StartDate','EndDate','InitialTraveledReading','FinalTraveledReading')
 
 admin.site.register(Vehicle,VehicleAdmin)
 admin.site.register(VehicleClasification)

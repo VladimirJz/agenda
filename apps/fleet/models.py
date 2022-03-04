@@ -185,14 +185,14 @@ class MaintenanceDetail(models.Model):
     
 class FuelConsumption(models.Model):
     FuelSupply=models.ForeignKey(FuelSupply,on_delete=models.SET_NULL,null=True)
-    #Vehicle=models.ForeignKey(Vehicle,on_delete=models.SET_NULL,null=True)
     Driver=models.ForeignKey(Driver,on_delete=models.SET_NULL,null=True)
+
     FuelQuantity=models.PositiveIntegerField(verbose_name='Combustible', help_text='Cantidad de Combustible')
     StartDate=models.DateField(verbose_name='Inicio',help_text='Inicio de medición')
-    EndDate=models.DateField(verbose_name='Fin',help_text='Final de medición')
-    InitialTravelReading=models.PositiveIntegerField(verbose_name='Lectura inicial',help_text='Lectura inicial del odometro')    
-    FinalTravelReading=models.PositiveIntegerField(verbose_name='Lectura final',help_text='Lectura final del odometro')    
-    FuelEfficiency=models.DecimalField(max_digits=8, decimal_places=2,verbose_name='Eficiencia',help_text='Rendimiento del combustible')
+    EndDate=models.DateField(verbose_name='Fin',help_text='Final de medición',null=True )
+    InitialTraveledReading=models.PositiveIntegerField(verbose_name='Lectura inicial',help_text='Lectura inicial del odometro')    
+    FinalTraveledReading=models.PositiveIntegerField(verbose_name='Lectura final',help_text='Lectura final del odometro',null=True)    
+    FuelEfficiency=models.DecimalField(max_digits=8, decimal_places=2,verbose_name='Eficiencia',help_text='Rendimiento del combustible',null=True)
     #VehicleAvgFuelEfficiency=models.DecimalField(max_digits=8, decimal_places=2,verbose_name='Eficiencia promedio',help_text='Rendimiento promedio de combustible')
     #DriverAvgFuelEfficiency=models.DecimalField(max_digits=8, decimal_places=2,verbose_name='Eficiencia promedio',help_text='Rendimiento promedio de combustible')
 

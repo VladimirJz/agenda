@@ -35,7 +35,7 @@
     {% block stylesheets %}{% endblock stylesheets %}
 
 </head>
-<body data-background-color="white">
+<body data-background-color="white"  >
 	<div class="wrapper">
 
         {% include 'includes/navigation.html' %}
@@ -65,14 +65,14 @@
     <!-- Specific Page JS goes HERE  -->
     {% block javascripts %}
 	<script>
-		$('#submit').on('click', function(){
+		function float_alert (){
 			var placementFrom = $('#notify_placement_from option:selected').val();
 			var placementAlign = $('#notify_placement_align option:selected').val();
 			var state = $('#notify_state option:selected').val();
 			var style = $('#notify_style option:selected').val();
 			var content = {};
 
-			content.message = 'Turning standard Bootstrap alerts into "notify" like notifications';
+			content.message = '{% for message in messages %} {{ message }} {% endfor %}';
 			content.title = 'Bootstrap notify';
 			if (style == "withicon") {
 				content.icon = 'fa fa-bell';
@@ -86,12 +86,12 @@
 				type: 'primary',
 				placement: {
 					from: 'top',
-					align: 'left'
+					align: 'right'
 				},
 				time: 1000,
 				delay: 0,
 			});
-		});
+		}
 	</script>
 
 	{% endblock javascripts %}
