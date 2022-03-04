@@ -150,6 +150,7 @@
 											<a href="#">
 												<div class="notif-img"> 
 													<img src="/static/assets/img/profile2.jpg" alt="Img Profile">
+													
 												</div>
 												<div class="notif-content">
 													<span class="block">
@@ -231,14 +232,17 @@
 						<li class="nav-item dropdown hidden-caret">
 							<a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false">
 								<div class="avatar-sm">
-									<img src="/static/assets/img/profile.jpg" alt="..." class="avatar-img rounded-circle">
+									<!-- <img src="/static/assets/img/profile.jpg" alt="..." class="avatar-img rounded-circle"> -->
+									<img src="https://ui-avatars.com/api/?name={{ request.user.username  }}" alt="profile"  class="avatar-img rounded-circle" >
 								</div>
 							</a>
 							<ul class="dropdown-menu dropdown-user animated fadeIn">
 								<div class="dropdown-user-scroll scrollbar-outer">
 									<li>
 										<div class="user-box">
-											<div class="avatar-lg"><img src="/static/assets/img/profile.jpg" alt="image profile" class="avatar-img rounded"></div>
+											<div class="avatar-lg">
+												<!-- <img src="/static/assets/img/profile.jpg" alt="image profile" class="avatar-img rounded"> -->
+												<img src="https://ui-avatars.com/api/?name={{ request.user.username  }}" alt="profile"  class="avatar-img rounded-circle" >											</div>
 											<div class="u-text">
 												<h4>
 													{{ request.user.username }}

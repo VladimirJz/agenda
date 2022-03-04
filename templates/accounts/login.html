@@ -1,5 +1,5 @@
 
-{% extends "layouts/base.html" %}
+{% extends "layouts/base-fullscreen.html" %}
 
 {% block title %} Login {% endblock title %}
 
@@ -21,7 +21,7 @@
                     <i class="flaticon-right-arrow"></i>
                 </li>
                 <li class="nav-item">
-                    <a href="#">Authentication</a>
+                    <a href="#">Autenticación</a>
                 </li>
                 <li class="separator">
                     <i class="flaticon-right-arrow"></i>
@@ -41,7 +41,7 @@
                                 <span class="text-danger">{{ msg | safe }}</span>
                             {% else %}
                             <span>
-                                Add your credentials
+                                Ingresa tus credenciales
                             </span>
                             {% endif %}
 
@@ -82,7 +82,7 @@
                             </div>
                         </div>
                         <div class="card-action">
-                            <button type="submit" class="btn btn-success">Submit</button>
+                            <button type="submit" class="btn btn-success">Ingresar</button>
                             &nbsp; &nbsp;
                             <span>Not a member?</span> Please <a href="{% url 'register' %}" >Register</a>
                         </div>
