@@ -4,6 +4,7 @@ from sre_parse import Verbose
 from django.db import models
 from django.contrib.auth.models import User
 from django.forms import CharField
+from django.core.exceptions import ValidationError
 
 from apps.company.models import Employ
 
@@ -70,6 +71,10 @@ class Vehicle(models.Model):
         return self.FriendlyName
     def Options(self):
         return 'Detalles_Eliminar'
+    def last_traveled_reading(self):
+    
+        reading=FuelConsumption.objects.filter()
+
 
 
 class VehicleDocument(models.Model):
@@ -136,9 +141,15 @@ class FuelSupply(models.Model):
     CostPerUnit=models.DecimalField(decimal_places=2,max_digits=6, verbose_name='Costo por unidad',help_text='Costo por unidad',default=0.0)
     TraveledReading=models.PositiveIntegerField(verbose_name='Indicador de recorrido.',help_text='Medición del odometro',default=0)
     Comments=models.CharField(max_length=300,verbose_name='Comentarios',help_text='Comentarios / Referencia',null=True)
+    
+    def clean(self):
+            if not(self.Quantity) > 1:
+                raise ValidationError(
+                    {'Quantity': "La cantidad no puede ser cero"})
 
-
-    pass
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        return super().save(*args, **kwargs)
 
 
 
@@ -196,8 +207,9 @@ class FuelConsumption(models.Model):
     #VehicleAvgFuelEfficiency=models.DecimalField(max_digits=8, decimal_places=2,verbose_name='Eficiencia promedio',help_text='Rendimiento promedio de combustible')
     #DriverAvgFuelEfficiency=models.DecimalField(max_digits=8, decimal_places=2,verbose_name='Eficiencia promedio',help_text='Rendimiento promedio de combustible')
 
-
-    pass
+    def __str__(self):
+        return str(self.StartDate)
+    
 # Itinirario de Viaje
 class Itinerary(models.Model):
     pass

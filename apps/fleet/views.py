@@ -73,8 +73,8 @@ class VehicleListView(ListView):
 
 class FuelSupplyCreateView(TemplateView,SuccessMessageMixin):
     FUEL_SUPPLY=2
-    event_form_class=EventForm
-    fuesupply_form_class=FuelSupplyForm
+    #event_form_class=EventForm
+    #fuesupply_form_class=FuelSupplyForm
     template_name='fleet/fuelsupply_create.html'
     #model=Event
     vehicle=Vehicle
@@ -114,28 +114,38 @@ class FuelSupplyCreateView(TemplateView,SuccessMessageMixin):
             if fuelsupply_form.is_valid():
                 #self.form_save(event_form)
                 event=event_form.save(commit=False)
-                event.Vehicle= self.vehicle
-                event.Type=self.FUEL_SUPPLY
-                event.save()
                 fuelsupply=fuelsupply_form.save(commit=False)
-                fuelsupply.Event=event
-                fuelsupply.save()
-                
-                consumption=FuelConsumption()
-                consumption.FuelSupply=fuelsupply
-                consumption.FuelQuantity=fuelsupply.Quantity
-                consumption.Driver=event.Driver
-                consumption.StartDate=event.Date
-                consumption.InitialTraveledReading=fuelsupply.TraveledReading
-                consumption.save()
-                #update the last consumption record
-                last_record=FuelConsumption.objects.filter(FuelSupply__Event__Vehicle=self.vehicle).order_by('-StartDate','id').values_list('id',flat=True)[:1]
-                if(last_record):
-                    FuelConsumption.objects.filter(id=last_record).update(EndDate=event.Date,FinalTraveledReading=fuelsupply.TraveledReading)
+                previous_supply=FuelSupply.objects.filter(Event__Vehicle=self.vehicle).order_by('-Event__Date','id').values_list("id","TraveledReading")[:1]
+                previous_reading=previous_supply[0][1]
+                if(fuelsupply.TraveledReading<previous_reading):
+                    messages.add_message(request, messages.ERROR,f'La lectura no puede ser menor de: {(previous_reading):,} ')
+                else:
+                    event.Vehicle= self.vehicle
+                    event.Type=self.FUEL_SUPPLY
+                    event.save()
+                    fuelsupply.Event=event
+                    fuelsupply.save()
+                    
+                    consumption=FuelConsumption()
+                    consumption.FuelSupply=fuelsupply
+                    consumption.FuelQuantity=fuelsupply.Quantity
+                    consumption.Driver=event.Driver
+                    consumption.StartDate=event.Date
+                    consumption.InitialTraveledReading=fuelsupply.TraveledReading
+                    consumption.save()
+                    #update the last consumption record
+                    last_record=FuelConsumption.objects.filter(FuelSupply__Event__Vehicle=self.vehicle).order_by('-StartDate','id').values_list('id',flat=True)[:1]
+                    #last_record=FuelConsumption.objects.filter(FuelSupply__Event__Vehicle=self.vehicle).order_by('-StartDate','id').values_list('id',flat=True)[:1]
 
 
-                #                 
-                messages.add_message(request, messages.SUCCESS,"Se ha registrado el suministro de combustible")
+
+                    if(last_record):
+
+                        FuelConsumption.objects.filter(id=last_record).update(EndDate=event.Date,FinalTraveledReading=fuelsupply.TraveledReading)
+
+
+                    #                 
+                    messages.add_message(request, messages.SUCCESS,"Se ha registrado el suministro de combustible")
         return self.render_to_response(context)    
 
 
