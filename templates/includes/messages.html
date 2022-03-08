@@ -1,22 +1,24 @@
 {{block_messages}}
 {% if messages %}
 {% for message in messages %}
-<div class="alert alert-{{message.tags}} alert-dismissible fade show " role="alert">
+<div class="alert {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}alert-danger {% else %} alert-{{message.tags}} {% endif %} alert-dismissible fade show " role="alert">
   <button type="button" class="close"   data-dismiss="alert" aria-label="Close">
     <i class="icon-close" style="position: absolute; right: 10px; top:2px; z-index: 1033;"></i>
   </button>
-  {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}ERROR: 
+  {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}OCURRIO UN ERROR: 
   {% else %}
   <strong>{{ message.tags|upper }}:</strong>
   {% endif  %}
   {{message}} 
-  {% if go_back %}
-  <p></p>
-  <span>
-  <a class='text-info' href="{% url go_back %}" ><i class="la flaticon-back"></i> Regresar.</a>
-</span>
+  {% if  message.tags == 'success' %}
+    {% if go_back %}
+    <p></p> 
+    <span>
+    <a class='text-info' href="{% url go_back %}" ><i class="la flaticon-back"></i> Regresar.</a>
+  </span>
+    {% endif %}
   {% endif %}
-
+  
 </div>
   {% endfor %}
 {% endif %}

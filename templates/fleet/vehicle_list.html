@@ -189,11 +189,11 @@
 							{% include 'includes/messages.html' %}
 							<div class="table-responsive">
 								<table id="basic-datatables" class="display table table-striped table-hover" >
-									{% for object in objects %}
+									{% for vehicle in vehicle_list %}
 										{% if forloop.first %}
 											<thead>
 												<tr>
-													{% for fieldname in object.keys %}<th>{{ fieldname }}</th>{% endfor %}
+													{% for fieldname in vehicle.keys %}<th>{{ fieldname }}</th>{% endfor %}
 													{% if options %}
 													<td>Options</td>
 													{% endif %}
@@ -202,15 +202,15 @@
 											<tbody>
 										{% endif %}
 											<tr>
-											{% for value in object.values %}
+											{% for value in vehicle.values %}
 												<td>{{ value }}</td>
 											{% endfor %}
 											{% if options %}
 												<td>
-													<button class="btn btn-primary btn-border dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-thumbtack"></i></button>
+													<button class="btn btn-primary btn-link dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-thumbtack"></i></button>
 													<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(140px, 43px, 0px); top: 0px; left: 0px; will-change: transform;">
 														{%for option in options%}	
-														<a class="dropdown-item" href="{{option.url}}{{ object | get_value:"ID" }}"> 
+														<a class="dropdown-item" href="{{option.url}}{{ vehicle | get_value:"ID" }}"> 
 															
 														<div class="row">
 															<div></div>

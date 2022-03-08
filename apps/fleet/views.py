@@ -31,7 +31,7 @@ class VehicleListView(ListView):
      
                                         )
                                   
-    context_object_name='objects'
+    context_object_name='vehicle_list'
 
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
@@ -68,7 +68,39 @@ class VehicleListView(ListView):
         context['options']=options
         context['resume']=resume
         return context
+
+class VehicleAssigmmentListView(ListView):
+    model=Vehicle
+    #templatename='vehicles/vehicle_assignment_list.html'
+    queryset=Vehicle.objects.all().values(ID=F('id'),
+                                        Marca=F('Manufacturer__Brand'),
+                                        Modelo=F('Model'),
+                                        Alias=F('FriendlyName'),
+                                        Conductor=F("state__Driver__Employ__DisplayName"),
+                                        Placas=F('VehiclePlate'),)
+                                        
+                                  
+    context_object_name='vehicle_list'
+
+    def get_template_names (self):
+        return ["fleet/vehicle_assignment_list.html"]
     
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        options=[
+                {'url':'fuelsupply/','ico':'fas fa-key','label':'Reasignar'},
+                {'url':'#','ico':'fas fa-user-alt-slash','label':'Liberar'},
+
+                ]
+        breadcrumb=Site.Breadcrumb(self)
+        context['breadcrumb']=breadcrumb
+        menu='assignment'
+        app='fleet'
+        context ['menu']=menu
+        context['app']=app
+        context['options']=options
+        return context
 
 
 class FuelSupplyCreateView(TemplateView,SuccessMessageMixin):
@@ -118,7 +150,8 @@ class FuelSupplyCreateView(TemplateView,SuccessMessageMixin):
                 previous_supply=FuelSupply.objects.filter(Event__Vehicle=self.vehicle).order_by('-Event__Date','id').values_list("id","TraveledReading")[:1]
                 previous_reading=previous_supply[0][1]
                 if(fuelsupply.TraveledReading<previous_reading):
-                    messages.add_message(request, messages.ERROR,f'La lectura no puede ser menor de: {(previous_reading):,} ')
+                    messages.add_message(request, messages.WARNING,f'La lectura de kilometraje no es correcta.')
+                    messages.add_message(request, messages.INFO,f'La ultima lectura fue de : {(previous_reading):,} ')
                 else:
                     event.Vehicle= self.vehicle
                     event.Type=self.FUEL_SUPPLY
@@ -158,6 +191,11 @@ class FuelSupplyCreateView(TemplateView,SuccessMessageMixin):
     def get(self, request, *args, **kwargs):        
         return self.post(request, *args, **kwargs)
          
+class VehicleAssignmentView(TemplateView):
+    def post(self, request,pk):
+        pass
+
+
 
 class FuelSupplyListView(ListView):
     model=FuelSupply

@@ -15,7 +15,7 @@ from apps.company.models import Employ
 
 #Catalogos
 TRANSMISSION_TYPE=[(1,'Manual'),(2,'Automática'),(3,'CVT'),(4,'Semiautomática'),(5,'Dual-Cluth')]
-EVENT_TYPE=[(1,'Itinerario de Viaje'),(2,'Suministro de Combustible'),(3,'Suministro interno'),(4,'Mantenimiento'),(5,'Hecho de transito'),(6,'Reporte de Falla')]
+EVENT_TYPE=[(1,'Itinerario de Viaje'),(2,'Suministro de Combustible'),(3,'Suministro interno'),(4,'Mantenimiento'),(5,'Hecho de transito'),(6,'Reporte de Falla'),(7,'Asignación')]
 FUEL_TYPE=[(1,'Gasolina'),(2,'Diesel')]
 SEVERITY_TYPE=[(1,'Estetico'),(2,'Menor'),(3,'Moderada'),(4,'Mayor'),(5,'Crítica')]
 MAINTENANCE_TYPE=[(1,'Preventivo'),(2,'Correctivo')]
@@ -25,6 +25,18 @@ class Group(models.Model):
     GroupName=models.CharField(max_length=30,help_text='Grupo vehicular',verbose_name='Grupo')
     def __str__(self):
         return self.GroupName
+
+
+class DriverDocument(models.Model):
+    pass
+class DocumentType(models.Model):
+    pass
+class Driver(models.Model):
+    Employ=models.ForeignKey(Employ,on_delete=models.SET_NULL,null=True)
+    Comments=models.CharField(max_length=300,help_text='Comentarios sobre el conductor',verbose_name='Observaciones',blank=True,default='')
+
+    def __str__(self):
+        return str(self.Employ)
 
 class VehicleClasification(models.Model):
     ClasificationName=models.CharField(max_length=30,help_text='Clasificacion',verbose_name='Clasificación')
@@ -41,9 +53,7 @@ class VehicleManufacturer(models.Model):
     def __str__(self):
         return self.ManufacturerName + '-' + self.Brand
 
-
 #TODO: agregar Medidad de uso (km/milla/hora) / medida de combustible
-
 #TODO: Agregar el rendimiento ideal: l/Km
 #TODO: Cambiar Year por Line, la linea del vehiculo, en lugar del año NO PROCEDE
 #TODO: Se requiere una clase para controlar la distribuciòn de itinerarios de los vehiculos
@@ -71,24 +81,23 @@ class Vehicle(models.Model):
         return self.FriendlyName
     def Options(self):
         return 'Detalles_Eliminar'
-    def last_traveled_reading(self):
-    
+    def last_traveled_reading(self):   
         reading=FuelConsumption.objects.filter()
 
+# TODO:el estado del vehiculo debe  llevar el registro de las condiciones generales
+# observadas en el mismo desde la asignación del conductor, como el seguro, garantia,
+# estado de leasing, etc.
+
+class State(models.Model):
+    Vehicle=models.OneToOneField(Vehicle,on_delete=models.SET_NULL,null=True)
+    Driver=models.OneToOneField(Driver,on_delete=models.SET_NULL,null=True,related_name='his_driver')
+    created_by=models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
+    created_on=models.DateTimeField(auto_now_add=True,blank=True,null=True)
+    pass
 
 
 class VehicleDocument(models.Model):
     pass
-class DriverDocument(models.Model):
-    pass
-class DocumentType(models.Model):
-    pass
-class Driver(models.Model):
-    Employ=models.ForeignKey(Employ,on_delete=models.SET_NULL,null=True)
-    Comments=models.CharField(max_length=300,help_text='Comentarios sobre el conductor',verbose_name='Observaciones',blank=True,default='')
-
-    def __str__(self):
-        return str(self.Employ)
 
 class Agency(models.Model):
     pass
@@ -168,7 +177,20 @@ class TrafficIncident(models.Model):
     DisableVehicle=models.BooleanField(default=False,verbose_name='Vehiculo deshabilitado?',help_text='Fue inhabilitado el vehiculo?')
 
 
+class Assignment(models.Model):
+    Event=models.ForeignKey(Event,on_delete=models.SET_NULL,null=True)
+    Driver=models.ForeignKey(Driver,on_delete=models.SET_NULL,null=True)
+    FuelReading=models.PositiveSmallIntegerField(verbose_name='Indicador de combustible',help_text='Porcentaje de combustible en el Tanque',default=0)
+    TraveledReading=models.PositiveIntegerField(verbose_name='Indicador de recorrido.',help_text='Medición del odometro',default=0)
+    Comments=models.TextField(max_length=100,verbose_name='Comentarios',help_text='Comentarios / observaciones')
+    created_by=models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
+    created_on=models.DateTimeField(auto_now_add=True,blank=True,null=True)
 
+
+
+
+
+#
     pass
 
 #Reportes 
