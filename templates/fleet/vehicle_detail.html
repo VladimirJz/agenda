@@ -1,0 +1,65 @@
+{% extends "layouts/base.html" %}
+{% load core_extras %}
+{% block title %} Listado de vehiculos {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+	<div class="content">
+		<div class="page-inner">
+			<div class="page-header">
+				<h4 class="page-title"> Vehiculo</h4>
+				{% include 'includes/breadcrumb.html' %}
+	
+			</div>
+			
+
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card">
+						<div class="card-header">
+							<h4 class="card-title">vehiculo</h4>
+						</div>
+
+						<div class="card-body">
+							{% include 'includes/messages.html' %}
+							
+                            <div class="col-md-6 col-8" >
+                                <div class="card full-height">
+                                    <div class="card-header">
+                                        <div class="card-title">Actividad</div>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <ol class="activity-feed">
+                                            {% for event in events %}
+                                            <li class="feed-item feed-item-{{ event.level }}">
+                                                <time class="date" datetime="9-25">Hace {{ event.date |timesince |lower  }} </time>
+                                                <i class="{{ event.icon }} {{event.level}} "></i> &nbsp; <span class="text">{{event.type}} <a href="#">"_"</a></span>
+                                            </li>
+                                            {% endfor %}
+
+
+                                           
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>							
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- -->
+		</div>
+	</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+
+{% endblock javascripts %}

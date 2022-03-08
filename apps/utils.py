@@ -1,4 +1,4 @@
-class Site():
+class Widgets():
     def Breadcrumb(self):
         '''Return a dic whit name/url pair'''
         view_name=self.request.resolver_match.url_name
@@ -15,3 +15,5 @@ class Site():
                 path=path+option+'_'
             breadcrumb[path[:-1]]=option
         return breadcrumb
+    def Timeline(self):
+        pass

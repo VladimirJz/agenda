@@ -113,8 +113,33 @@ class Event(models.Model):
     created_on=models.DateTimeField(auto_now_add=True,blank=True,null=True)
     def __str__(self):
         return str(self.Type) + ' ' + self.Description + ' - ' + str(self.Vehicle)
+# primary,secoundary ,info,sucess,warnig,Danger
+    @property
+    def level(self):
+        switcher = {
+                    1: "success",
+                    2: "info",
+                    3: "info",
+                    4: "warning",
+                    5: "danger",
+                    6: "warning",
+                    7: "secondary",
+                }
+        return switcher.get(self.Type, "info")
 
-    pass
+#    EVENT_TYPE=[(1,'Itinerario de Viaje'),(2,'Suministro de Combustible'),(3,'Suministro interno'),(4,'Mantenimiento'),(5,'Hecho de transito'),(6,'Reporte de Falla'),(7,'Asignación')]
+    @property
+    def icon(self):
+            switcher = {
+                        1: "fas fa-map-marked-alt",
+                        2: "fa fa-gas-pump",
+                        3: "fas fa-box-open",
+                        4: "fas fa-wrench",
+                        5: "fas fa-car-crash",
+                        6: "far fa-lightbulb",
+                        7: "fas fa-user-check",
+                    }
+            return switcher.get(self.Type, "far fa-lightbulb")
 # El tipo puede ser una lista fija
 
 

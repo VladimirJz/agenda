@@ -1,5 +1,4 @@
 from asyncio import events
-from multiprocessing import Event
 from pipes import Template
 from typing import Literal
 from django.shortcuts import redirect, render
@@ -12,9 +11,9 @@ from django.contrib import messages
 from django.urls import reverse
 from django.contrib import messages
 
-from apps.utils import Site
+from apps.utils import Widgets
 from apps.fleet.forms import NewEventForm,EventForm,FuelSupplyForm
-from apps.fleet.models import FuelSupply, Vehicle,VehicleClasification,FuelConsumption
+from apps.fleet.models import FuelSupply, Vehicle,VehicleClasification,FuelConsumption,Event
 
 class dashboard(ListView):
     pass
@@ -49,7 +48,7 @@ class VehicleListView(ListView):
         app='flota'
         menu='vehiculos'
         #current_url = self.request.resolver_match.url_name
-        breadcrumb=Site.Breadcrumb(self)
+        breadcrumb=Widgets.Breadcrumb(self)
         context['breadcrumb']=breadcrumb
 
         #breadcrumb=get_breadcrumb(current_url)
@@ -93,7 +92,7 @@ class VehicleAssigmmentListView(ListView):
                 {'url':'#','ico':'fas fa-user-alt-slash','label':'Liberar'},
 
                 ]
-        breadcrumb=Site.Breadcrumb(self)
+        breadcrumb=Widgets.Breadcrumb(self)
         context['breadcrumb']=breadcrumb
         menu='assignment'
         app='fleet'
@@ -124,7 +123,7 @@ class FuelSupplyCreateView(TemplateView,SuccessMessageMixin):
         app='flota'
         menu='combustible'
         go_back='flota_vehiculos'
-        breadcrumb=Site.Breadcrumb(self)
+        breadcrumb=Widgets.Breadcrumb(self)
         context['breadcrumb']=breadcrumb
         context['go_back']=go_back
         context['app']=app
@@ -206,3 +205,36 @@ class FuelSupplyListView(ListView):
                                                         )
                                   
     context_object_name='objects'
+
+class VehicleDetailView(ListView):
+    model=Vehicle
+    queryset=Vehicle.objects.filter(id=1)
+    context_object_name='vehicle'
+
+    def get_template_names (self):
+        return ["fleet/vehicle_detail.html"]
+   
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        events=(Event.objects.filter(Vehicle_id=1).only('id','Type','Date'))
+        print (events)
+        timeline=[]
+        for e in events:
+            item={}
+            item['id']=e.id
+            item['date']=e.Date
+            item['icon']=e.icon
+            item['level']=e.level
+            item['type']=e.get_Type_display()
+            timeline.append(item)
+            print(item)
+        print("---")
+        print(timeline)  
+        context['events']=timeline
+        breadcrumb=Widgets.Breadcrumb(self)
+        context['breadcrumb']=breadcrumb
+        menu='vehicle'
+        app='fleet'
+        context ['menu']=menu
+        context['app']=app
+        return context
