@@ -1,14 +1,14 @@
-from .models import Event,FuelSupply
+from .models import Assignment, Event,FuelSupply
 import floppyforms as forms
 import floppyforms.__future__ as forms
 from floppyforms import widgets
 
 
-class NewEventForm(forms.ModelForm):
+# class NewEventForm(forms.ModelForm):
 
-     class Meta:
-        model = Event
-        fields = ('__all__')
+#      class Meta:
+#         model = Event
+#         fields = ('__all__')
 
 
 # generic event form
@@ -25,4 +25,8 @@ class FuelSupplyForm(forms.ModelForm):
       exclude=['Event']
       #fields=('__all__')
 
+class AssignmentForm(forms.ModelForm):
+   class Meta:
+      model=Assignment
+      exclude=['Event']
    

@@ -1,8 +1,9 @@
 from asyncio import events
 from pipes import Template
+from sys import prefix
 from typing import Literal
 from django.shortcuts import redirect, render
-from django.views.generic import TemplateView,ListView,CreateView
+from django.views.generic import TemplateView,ListView,CreateView,DetailView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import F
 from itertools import chain
@@ -10,10 +11,11 @@ from django.db.models import Count
 from django.contrib import messages
 from django.urls import reverse
 from django.contrib import messages
+from django.http import HttpResponse, HttpResponseNotFound
 
 from apps.utils import Widgets
-from apps.fleet.forms import NewEventForm,EventForm,FuelSupplyForm
-from apps.fleet.models import FuelSupply, Vehicle,VehicleClasification,FuelConsumption,Event
+from apps.fleet.forms import EventForm,FuelSupplyForm,AssignmentForm
+from apps.fleet.models import Assignment, FuelSupply, Vehicle,VehicleClasification,FuelConsumption,Event,State
 
 class dashboard(ListView):
     pass
@@ -55,10 +57,10 @@ class VehicleListView(ListView):
 
         #TODO: get options from Queryset : Model=> Config.vehicle_options
         options=[
-                {'url':'fuelsupply/','ico':'fa fa-gas-pump fa-lg','label':'Combustible'},
-                {'url':'#','ico':'fas fa-wrench','label':'Mantenimiento'},
-                {'url':'#','ico':'fas fa-car-crash','label':'Incidente'},
-                {'url':'#','ico':'fas fa-exclamation','label':'Reporte'},
+                {'url':'flota_vehiculos_combustible','icon':'fa fa-gas-pump fa-lg','label':'Combustible'},
+                {'url':'flota_vehiculos_combustible','icon':'fas fa-wrench','label':'Mantenimiento'},
+                {'url':'flota_vehiculos_combustible','icon':'fas fa-car-crash','label':'Incidente'},
+                {'url':'flota_vehiculos_combustible','icon':'fas fa-exclamation','label':'Reporte'},
 
                 ]
 
@@ -88,8 +90,8 @@ class VehicleAssigmmentListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         options=[
-                {'url':'fuelsupply/','ico':'fas fa-key','label':'Reasignar'},
-                {'url':'#','ico':'fas fa-user-alt-slash','label':'Liberar'},
+                {'url':'flota_vehiculos_asignacion','icon':'fas fa-key','label':'Reasignar'},
+                {'url':'flota_vehiculos_asignacion','icon':'fas fa-user-alt-slash','label':'Liberar'},
 
                 ]
         breadcrumb=Widgets.Breadcrumb(self)
@@ -129,6 +131,9 @@ class FuelSupplyCreateView(TemplateView,SuccessMessageMixin):
         context['app']=app
         context['menu']=menu
         return context
+        
+    def get(self, request, *args, **kwargs):        
+        return self.post(request, *args, **kwargs)
 
     def post(self, request,pk):
         post_data = request.POST or None
@@ -187,13 +192,39 @@ class FuelSupplyCreateView(TemplateView,SuccessMessageMixin):
     #     return obj
 
 
-    def get(self, request, *args, **kwargs):        
-        return self.post(request, *args, **kwargs)
+
          
 class VehicleAssignmentView(TemplateView):
-    def post(self, request,pk):
-        pass
+    template_name='fleet/assignment_create.html'
+    vehicle=Vehicle
+    assignment=Assignment
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        self.vehicle=Vehicle.objects.get(id=self.kwargs['pk'])
+        context['vehicle']=self.vehicle
+
+        return context
+
+    def get(self, request, *args, **kwargs):        
+        return self.post(request, *args, **kwargs)
+    
+    def post(self, request,pk):
+        post_data = request.POST or None
+        if not post_data:
+            current_driver=State.objects.filter(Vehicle_id=self.kwargs['pk']).values_list('Driver_id',flat=True)
+            event_form=EventForm(post_data,prefix='event',initial={'Driver':current_driver})
+            assignment_form=AssignmentForm(post_data,prefix='assignment')
+            context=self.get_context_data(event_form=event_form,
+                                            assignment_form=assignment_form
+                                            )
+        else:
+            if event_form.is_valid():
+                return HttpResponse('IS VALID')
+
+        
+
+        return self.render_to_response(context)
 
 
 class FuelSupplyListView(ListView):
@@ -206,7 +237,7 @@ class FuelSupplyListView(ListView):
                                   
     context_object_name='objects'
 
-class VehicleDetailView(ListView):
+class VehicleDetailView(DetailView):
     model=Vehicle
     queryset=Vehicle.objects.filter(id=1)
     context_object_name='vehicle'
@@ -216,7 +247,7 @@ class VehicleDetailView(ListView):
    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        events=(Event.objects.filter(Vehicle_id=1).only('id','Type','Date'))
+        events=(Event.objects.filter(Vehicle_id=1).only('id','Type','Date').order_by('-Date')[:5])
         print (events)
         timeline=[]
         for e in events:
@@ -238,3 +269,5 @@ class VehicleDetailView(ListView):
         context ['menu']=menu
         context['app']=app
         return context
+
+

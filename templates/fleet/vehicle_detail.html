@@ -20,16 +20,17 @@
 				<div class="col-md-12">
 					<div class="card">
 						<div class="card-header">
-							<h4 class="card-title">vehiculo</h4>
+							<h4 class="card-title">{{vehicle.FriendlyName}} - [{{vehicle.VehiclePlate}}]</h4>
 						</div>
 
 						<div class="card-body">
 							{% include 'includes/messages.html' %}
 							
-                            <div class="col-md-6 col-8" >
+							<div class="row">
+                            <div class="col-md-4" >
                                 <div class="card full-height">
                                     <div class="card-header">
-                                        <div class="card-title">Actividad</div>
+                                        <div class="card-title">Actividad reciente:</div>
                                     </div>
 
                                     <div class="card-body">
@@ -46,7 +47,26 @@
                                         </ol>
                                     </div>
                                 </div>
-                            </div>							
+                            </div><!-- Feed -->
+							<div class="col-md-8">
+								<div class="card full-height">
+									<div class="card-header">	
+											<div class="card-title">Detalles</div>
+									</div>
+									<div class="card-body">
+										Modelo:<p>{{ vehicle.Model }}
+										Año:<p>{{ vehicle.Year }}
+										Color:<p>{{ vehicle.Color }}
+										Placas:<p>{{ vehicle.VehiclePlate }}
+										Grupo_<p>{{ vehicle.Group }}
+										Estatus<p>{{ vehicle.Status }}
+									</div>
+								</div>
+							</div>
+							<!-- calendar -->
+						</div><!-- row -->
+							
+
 
 						</div>
 					</div>

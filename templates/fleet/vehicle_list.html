@@ -210,11 +210,10 @@
 													<button class="btn btn-primary btn-link dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-thumbtack"></i></button>
 													<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(140px, 43px, 0px); top: 0px; left: 0px; will-change: transform;">
 														{%for option in options%}	
-														<a class="dropdown-item" href="{{option.url}}{{ vehicle | get_value:"ID" }}"> 
-															
+														<a class="dropdown-item" href="{% url option.url vehicle.ID %}"> 
 														<div class="row">
 															<div></div>
-															<div class="col-sm-2"><i class="{{option.ico}}"></i></div> &nbsp;&nbsp; {{option.label}}
+															<div class="col-sm-2"><i class="{{option.icon}}"></i></div> &nbsp;&nbsp; {{option.label}}
 															<div class="col-sm-6 text-left">
 															</div>
 														</div>
@@ -225,7 +224,7 @@
 
 														{% endfor %}
 														<div role="separator" class="dropdown-divider"></div>
-														<a class="dropdown-item" href="#"><i class="fas fa-clipboard-list"></i>  &nbsp;&nbsp; Ver detalle</a>
+														<a class="dropdown-item" href={% url 'flota_vehiculos_detalle'  vehicle.ID  %}><i class="fas fa-clipboard-list"></i>  &nbsp;&nbsp; Ver detalle</a>
 
 													<!-- <a class="dropdown-item" href="#">.. Mantenimiento</a>
 													<a class="dropdown-item" href="#">..Otro</a> -->

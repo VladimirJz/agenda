@@ -13,9 +13,10 @@ urlpatterns=[
             path('',dashboard.as_view(),name='flota'),
             path('vehicles/',VehicleListView.as_view(),name='flota_vehiculos'),
             #path('vehicles/event/',EventCreateView_.as_view(),name='event_new'),
-            path('vehicles/fuelsupply/<int:pk>',FuelSupplyCreateView.as_view(),name='flota_vehiculos_combustible'),
+            path('vehicles/<int:pk>/fuelsupply',FuelSupplyCreateView.as_view(),name='flota_vehiculos_combustible'),
             #path('vehicles/<int:pk>/details',FuelSupplyListView.as_view(),name='flota_vehiculos_detalle'),
             path('vehicles/assignment',VehicleAssigmmentListView.as_view(),name='flota_asignacion'),
+            path('vehicles/<int:pk>/assignment',VehicleAssignmentView.as_view(),name='flota_vehiculos_asignacion'),
             path('vehicles/<int:pk>/details',VehicleDetailView.as_view(),name='flota_vehiculos_detalle')
             ]
 
