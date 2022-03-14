@@ -1,6 +1,6 @@
 from xml.dom.minicompat import EmptyNodeList
 from django.contrib import admin
-from apps.company.models import Profile,Office,Employ
+from apps.company.models import Profile,Office,Employ, UserProfile
 # Register your models here.
 
 class EmployAdmin(admin.ModelAdmin):
@@ -8,5 +8,6 @@ class EmployAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Profile)
+admin.site.register(UserProfile)
 admin.site.register(Office)
 admin.site.register(Employ,EmployAdmin)

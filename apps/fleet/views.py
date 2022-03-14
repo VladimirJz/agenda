@@ -1,4 +1,5 @@
 from asyncio import events
+from dataclasses import fields
 from pipes import Template
 from sys import prefix
 from typing import Literal
@@ -12,6 +13,8 @@ from django.contrib import messages
 from django.urls import reverse
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseNotFound
+from django.urls import reverse_lazy
+from apps.fleet import models
 
 from apps.utils import Widgets
 from apps.fleet.forms import EventForm,FuelSupplyForm,AssignmentForm
@@ -105,7 +108,7 @@ class VehicleAssigmmentListView(ListView):
 
 
 class FuelSupplyCreateView(TemplateView,SuccessMessageMixin):
-    FUEL_SUPPLY=2
+    FUEL_SUPPLY_TYPE=2
     #event_form_class=EventForm
     #fuesupply_form_class=FuelSupplyForm
     template_name='fleet/fuelsupply_create.html'
@@ -158,7 +161,7 @@ class FuelSupplyCreateView(TemplateView,SuccessMessageMixin):
                     messages.add_message(request, messages.INFO,f'La ultima lectura fue de : {(previous_reading):,} ')
                 else:
                     event.Vehicle= self.vehicle
-                    event.Type=self.FUEL_SUPPLY
+                    event.Type=self.FUEL_SUPPLY_TYPE
                     event.save()
                     fuelsupply.Event=event
                     fuelsupply.save()
@@ -198,34 +201,62 @@ class VehicleAssignmentView(TemplateView):
     template_name='fleet/assignment_create.html'
     vehicle=Vehicle
     assignment=Assignment
+    ASSIGNMENT_TYPE=7
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         self.vehicle=Vehicle.objects.get(id=self.kwargs['pk'])
         context['vehicle']=self.vehicle
-
+        app='flota'
+        menu='asignación'
+        go_back='flota_asignacion'
+        breadcrumb=Widgets.Breadcrumb(self)
+        context['breadcrumb']=breadcrumb
+        context['go_back']=go_back
+        context['app']=app
+        context['menu']=menu
         return context
+
 
     def get(self, request, *args, **kwargs):        
         return self.post(request, *args, **kwargs)
     
     def post(self, request,pk):
         post_data = request.POST or None
-        if not post_data:
-            current_driver=State.objects.filter(Vehicle_id=self.kwargs['pk']).values_list('Driver_id',flat=True)
-            event_form=EventForm(post_data,prefix='event',initial={'Driver':current_driver})
-            assignment_form=AssignmentForm(post_data,prefix='assignment')
-            context=self.get_context_data(event_form=event_form,
-                                            assignment_form=assignment_form
-                                            )
-        else:
-            if event_form.is_valid():
-                return HttpResponse('IS VALID')
+        current_driver=State.objects.filter(Vehicle_id=self.kwargs['pk']).values_list('Driver_id',flat=True)
+        event_form=EventForm(post_data,prefix='event',initial={'Driver':current_driver})
+        assignment_form=AssignmentForm(post_data,prefix='assignment')
+        context=self.get_context_data(event_form=event_form,
+                                        assignment_form=assignment_form
+                                        )
+        print('post')
+        if event_form.is_valid():
+            print('es valido')
+            if assignment_form.is_valid():
+                event=event_form.save(commit=False)
+                assignment=assignment_form.save(commit=False)
+                if(self.validate()):
+                    print('Ok, validado')
+                    event.Vehicle=self.vehicle
+                    event.Type=self.ASSIGNMENT_TYPE
+                    event.save()
+                    assignment.Event=event
+                    assignment.save()
+                    State.objects.filter(Vehicle=self.vehicle).update(Driver=assignment.Driver)
 
-        
-
+                    messages.add_message(request, messages.SUCCESS,"Se ha registrado la asiganación de conductor")
+                else:
+                    print('No validado')
+                    messages.add_message(request, messages.SUCCESS,"Error general")
+            else:
+                print('2 no validado')
+        else:   
+            print ('mal formulario')
+            messages.add_message(request, messages.SUCCESS,"Error general")
         return self.render_to_response(context)
-
+    
+    def validate(self):
+        return True
 
 class FuelSupplyListView(ListView):
     model=FuelSupply
@@ -271,3 +302,8 @@ class VehicleDetailView(DetailView):
         return context
 
 
+class VehicleCreateView(CreateView):
+    model=Vehicle
+    fields='__all__'
+    success_url = reverse_lazy('flota_vehiculos')
+    pass

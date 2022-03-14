@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from apps.fleet.views import  FuelSupplyListView, dashboard,FuelSupplyCreateView,VehicleListView,VehicleAssignmentView,VehicleAssigmmentListView,VehicleDetailView
+from apps.fleet.views import  FuelSupplyListView, dashboard,FuelSupplyCreateView,VehicleListView,VehicleAssignmentView,VehicleAssigmmentListView,VehicleDetailView,VehicleCreateView
 
 # el name de cada path se usa para generar el breadcrumb, por lo que debe
 # respetar el patron anidado de las vistas, por ejemplo:
@@ -12,12 +12,13 @@ from apps.fleet.views import  FuelSupplyListView, dashboard,FuelSupplyCreateView
 urlpatterns=[
             path('',dashboard.as_view(),name='flota'),
             path('vehicles/',VehicleListView.as_view(),name='flota_vehiculos'),
+            path('vehicles/fleet/new',VehicleCreateView.as_view(),name='flota_vehiculos_nuevo'),
             #path('vehicles/event/',EventCreateView_.as_view(),name='event_new'),
             path('vehicles/<int:pk>/fuelsupply',FuelSupplyCreateView.as_view(),name='flota_vehiculos_combustible'),
             #path('vehicles/<int:pk>/details',FuelSupplyListView.as_view(),name='flota_vehiculos_detalle'),
+            path('vehicles/<int:pk>/details',VehicleDetailView.as_view(),name='flota_vehiculos_detalle'),
             path('vehicles/assignment',VehicleAssigmmentListView.as_view(),name='flota_asignacion'),
             path('vehicles/<int:pk>/assignment',VehicleAssignmentView.as_view(),name='flota_vehiculos_asignacion'),
-            path('vehicles/<int:pk>/details',VehicleDetailView.as_view(),name='flota_vehiculos_detalle')
             ]
 
 

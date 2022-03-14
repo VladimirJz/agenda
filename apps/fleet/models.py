@@ -90,7 +90,7 @@ class Vehicle(models.Model):
 
 class State(models.Model):
     Vehicle=models.OneToOneField(Vehicle,on_delete=models.SET_NULL,null=True)
-    Driver=models.OneToOneField(Driver,on_delete=models.SET_NULL,null=True,related_name='his_driver')
+    Driver=models.OneToOneField(Driver,on_delete=models.SET_NULL,null=True,related_name='his_driver',verbose_name='Conductor asignado')
     created_by=models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
     created_on=models.DateTimeField(auto_now_add=True,blank=True,null=True)
     pass
@@ -108,7 +108,7 @@ class Event(models.Model):
     Type=models.SmallIntegerField(choices=EVENT_TYPE,help_text='Tipo de evento',verbose_name='Tipo',default=1,null=True)
     Description=models.CharField(max_length=100, help_text='Descripción del evento',verbose_name='Descripción',blank=True)
     Vehicle=models.ForeignKey(Vehicle,on_delete=models.SET_NULL,null=True)
-    Driver=models.ForeignKey(Driver,on_delete=models.SET_NULL,null=True)
+    Driver=models.ForeignKey(Driver,on_delete=models.SET_NULL,null=True,verbose_name='Conductor')
     created_by=models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
     created_on=models.DateTimeField(auto_now_add=True,blank=True,null=True)
     def __str__(self):
@@ -201,10 +201,11 @@ class TrafficIncident(models.Model):
     ArrestedDriver=models.BooleanField(default=False,verbose_name='Detenido?',help_text='Fue detenido el conductor?')
     DisableVehicle=models.BooleanField(default=False,verbose_name='Vehiculo deshabilitado?',help_text='Fue inhabilitado el vehiculo?')
 
-
+# Asignaciòn
+ 
 class Assignment(models.Model):
     Event=models.ForeignKey(Event,on_delete=models.SET_NULL,null=True)
-    Driver=models.ForeignKey(Driver,on_delete=models.SET_NULL,null=True)
+    Driver=models.ForeignKey(Driver,on_delete=models.SET_NULL,null=True,verbose_name='Conductor asignado')
     FuelReading=models.PositiveSmallIntegerField(verbose_name='Indicador de combustible',help_text='Porcentaje de combustible en el Tanque',default=0)
     TraveledReading=models.PositiveIntegerField(verbose_name='Indicador de recorrido.',help_text='Medición del odometro',default=0)
     Comments=models.TextField(max_length=100,verbose_name='Comentarios',help_text='Comentarios / observaciones')
@@ -212,7 +213,12 @@ class Assignment(models.Model):
     created_on=models.DateTimeField(auto_now_add=True,blank=True,null=True)
 
 
+    def clean(self):
+        pass
 
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        return super().save(*args, **kwargs)
 
 
 #
