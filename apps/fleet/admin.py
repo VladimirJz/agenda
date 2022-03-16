@@ -8,7 +8,7 @@ class VehicleAdmin(admin.ModelAdmin):
     list_display=('Clasification','Model','Year','VehiclePlate','Group')
 
 class EventAdmin(admin.ModelAdmin):
-    list_display=('id','Vehicle','Date','Type','created_by','created_on')
+    list_display=('id','Vehicle','Date','Type','update_by','update_on')
 
 class FuelSupplyAdmin(admin.ModelAdmin):
     list_display=('id','Type')

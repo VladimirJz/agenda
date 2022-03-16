@@ -13,7 +13,10 @@ from django.contrib import messages
 from django.urls import reverse
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseNotFound
+from django.core.exceptions import ValidationError
 from django.urls import reverse_lazy
+
+
 from apps.fleet import models
 
 from apps.utils import Widgets
@@ -142,7 +145,8 @@ class FuelSupplyCreateView(TemplateView,SuccessMessageMixin):
         post_data = request.POST or None
         #event_form = self.event_form_class(post_data, prefix='event')
         #fuelsupply_form = self.fuesupply_form_class(post_data, prefix='fuelsupply')
-        event_form = EventForm(post_data, prefix='event')
+        current_driver=State.objects.filter(Vehicle_id=self.kwargs['pk']).values_list('Driver_id',flat=True)
+        event_form = EventForm(post_data, prefix='event',initial={'Driver':current_driver})
         fuelsupply_form = FuelSupplyForm(post_data, prefix='fuelsupply')
 
         context = self.get_context_data(event_form=event_form,
@@ -155,13 +159,18 @@ class FuelSupplyCreateView(TemplateView,SuccessMessageMixin):
                 event=event_form.save(commit=False)
                 fuelsupply=fuelsupply_form.save(commit=False)
                 previous_supply=FuelSupply.objects.filter(Event__Vehicle=self.vehicle).order_by('-Event__Date','id').values_list("id","TraveledReading")[:1]
-                previous_reading=previous_supply[0][1]
+                if(previous_supply):
+                    previous_reading=previous_supply[0][1]
+                else:
+                    previous_reading=0.0
+                    
                 if(fuelsupply.TraveledReading<previous_reading):
                     messages.add_message(request, messages.WARNING,f'La lectura de kilometraje no es correcta.')
                     messages.add_message(request, messages.INFO,f'La ultima lectura fue de : {(previous_reading):,} ')
                 else:
                     event.Vehicle= self.vehicle
                     event.Type=self.FUEL_SUPPLY_TYPE
+                    event.update_by=self.request.user
                     event.save()
                     fuelsupply.Event=event
                     fuelsupply.save()
@@ -172,6 +181,7 @@ class FuelSupplyCreateView(TemplateView,SuccessMessageMixin):
                     consumption.Driver=event.Driver
                     consumption.StartDate=event.Date
                     consumption.InitialTraveledReading=fuelsupply.TraveledReading
+                    consumption.update_by=self.request.user
                     consumption.save()
                     #update the last consumption record
                     last_record=FuelConsumption.objects.filter(FuelSupply__Event__Vehicle=self.vehicle).order_by('-StartDate','id').values_list('id',flat=True)[:1]
@@ -230,32 +240,38 @@ class VehicleAssignmentView(TemplateView):
                                         assignment_form=assignment_form
                                         )
         print('post')
-        if event_form.is_valid():
-            print('es valido')
-            if assignment_form.is_valid():
-                event=event_form.save(commit=False)
-                assignment=assignment_form.save(commit=False)
-                if(self.validate()):
-                    print('Ok, validado')
-                    event.Vehicle=self.vehicle
-                    event.Type=self.ASSIGNMENT_TYPE
-                    event.save()
-                    assignment.Event=event
-                    assignment.save()
-                    State.objects.filter(Vehicle=self.vehicle).update(Driver=assignment.Driver)
+        if(post_data):
+            if event_form.is_valid():
+                print('es valido')
+                if assignment_form.is_valid():
+                    event=event_form.save(commit=False)
+                    assignment=assignment_form.save(commit=False)
+                    if(self.is_valid()):
+                        print('Ok, validado')
+                        event.Vehicle=self.vehicle
+                        event.Type=self.ASSIGNMENT_TYPE
+                        event.update_by= self.request.user
+                        event.save()
+                        assignment.Event=event
+                        assignment.save()
+                        vehicle_state=State.objects.filter(Vehicle=self.vehicle)
+                        if(vehicle_state):
+                            vehicle_state.update(Driver=assignment.Driver)
+                        else:
+                            vehicle_state=State.objects.create(Vehicle=self.vehicle,Driver=assignment.Driver,update_by=self.request.user)
 
-                    messages.add_message(request, messages.SUCCESS,"Se ha registrado la asiganación de conductor")
+                        messages.add_message(request, messages.SUCCESS,"Se ha registrado la asiganación de conductor")
+                    else:
+                        print('No validado')
+                        messages.add_message(request, messages.SUCCESS,"Error general")
                 else:
-                    print('No validado')
-                    messages.add_message(request, messages.SUCCESS,"Error general")
-            else:
-                print('2 no validado')
-        else:   
-            print ('mal formulario')
-            messages.add_message(request, messages.SUCCESS,"Error general")
+                    print('2 no validado')
+            else:   
+                raise ValidationError("Ocurrio un error. Intente nuevamente.")
+
         return self.render_to_response(context)
     
-    def validate(self):
+    def is_valid(self):
         return True
 
 class FuelSupplyListView(ListView):

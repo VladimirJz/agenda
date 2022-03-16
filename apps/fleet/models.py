@@ -77,6 +77,9 @@ class Vehicle(models.Model):
     EngineSerialNumber=models.CharField(max_length=30,help_text='Serie del motor',verbose_name='NS Motor')
     Group=models.ForeignKey(Group,on_delete=models.SET_NULL,null=True)
     Status=models.SmallIntegerField(choices=VEHICLE_STATUS,default=1,blank=True)
+    update_by=models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
+    update_on=models.DateTimeField(auto_now_add=True,blank=True,null=True)
+    
     def __str__(self):
         return self.FriendlyName
     def Options(self):
@@ -91,8 +94,8 @@ class Vehicle(models.Model):
 class State(models.Model):
     Vehicle=models.OneToOneField(Vehicle,on_delete=models.SET_NULL,null=True)
     Driver=models.OneToOneField(Driver,on_delete=models.SET_NULL,null=True,related_name='his_driver',verbose_name='Conductor asignado')
-    created_by=models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
-    created_on=models.DateTimeField(auto_now_add=True,blank=True,null=True)
+    update_by=models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
+    update_on=models.DateTimeField(auto_now_add=True,blank=True,null=True)
     pass
 
 
@@ -109,8 +112,8 @@ class Event(models.Model):
     Description=models.CharField(max_length=100, help_text='Descripción del evento',verbose_name='Descripción',blank=True)
     Vehicle=models.ForeignKey(Vehicle,on_delete=models.SET_NULL,null=True)
     Driver=models.ForeignKey(Driver,on_delete=models.SET_NULL,null=True,verbose_name='Conductor')
-    created_by=models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
-    created_on=models.DateTimeField(auto_now_add=True,blank=True,null=True)
+    update_by=models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
+    update_on=models.DateTimeField(auto_now_add=True,blank=True,null=True)
     def __str__(self):
         return str(self.Type) + ' ' + self.Description + ' - ' + str(self.Vehicle)
 # primary,secoundary ,info,sucess,warnig,Danger
@@ -175,6 +178,8 @@ class FuelSupply(models.Model):
     CostPerUnit=models.DecimalField(decimal_places=2,max_digits=6, verbose_name='Costo por unidad',help_text='Costo por unidad',default=0.0)
     TraveledReading=models.PositiveIntegerField(verbose_name='Indicador de recorrido.',help_text='Medición del odometro',default=0)
     Comments=models.CharField(max_length=300,verbose_name='Comentarios',help_text='Comentarios / Referencia',null=True)
+    update_by=models.ForeignKey(User,on_delete=models.SET_NULL,null=True,blank=True)
+    update_on=models.DateTimeField(auto_now_add=True,blank=True,null=True)
     
     def clean(self):
             if not(self.Quantity) > 1:
@@ -200,7 +205,8 @@ class TrafficIncident(models.Model):
     InjuredPeople=models.BooleanField(default=False,verbose_name='Lesiones?',help_text='Existen personsas lesionadas?')
     ArrestedDriver=models.BooleanField(default=False,verbose_name='Detenido?',help_text='Fue detenido el conductor?')
     DisableVehicle=models.BooleanField(default=False,verbose_name='Vehiculo deshabilitado?',help_text='Fue inhabilitado el vehiculo?')
-
+    update_by=models.ForeignKey(User,on_delete=models.SET_NULL,null=True,blank=True)
+    update_on=models.DateTimeField(auto_now_add=True,blank=True,null=True)
 # Asignaciòn
  
 class Assignment(models.Model):
@@ -208,9 +214,10 @@ class Assignment(models.Model):
     Driver=models.ForeignKey(Driver,on_delete=models.SET_NULL,null=True,verbose_name='Conductor asignado')
     FuelReading=models.PositiveSmallIntegerField(verbose_name='Indicador de combustible',help_text='Porcentaje de combustible en el Tanque',default=0)
     TraveledReading=models.PositiveIntegerField(verbose_name='Indicador de recorrido.',help_text='Medición del odometro',default=0)
-    Comments=models.TextField(max_length=100,verbose_name='Comentarios',help_text='Comentarios / observaciones')
-    created_by=models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
-    created_on=models.DateTimeField(auto_now_add=True,blank=True,null=True)
+    Comments=models.CharField(max_length=300,verbose_name='Comentarios',help_text='Comentarios / observaciones')
+    update_by=models.ForeignKey(User,on_delete=models.SET_NULL,null=True,blank=True)
+    update_on=models.DateTimeField(auto_now_add=True,blank=True,null=True)
+
 
 
     def clean(self):

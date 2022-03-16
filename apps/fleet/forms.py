@@ -15,18 +15,18 @@ from floppyforms import widgets
 class EventForm(forms.ModelForm):
    class Meta:
       model=Event
-      exclude = ['Type','Vehicle','created_by']
+      exclude = ['Type','Vehicle','update_by']
       #fields=('__all__')
 
 # detailed event / activity form
 class FuelSupplyForm(forms.ModelForm):
    class Meta:
       model=FuelSupply
-      exclude=['Event']
+      exclude=['Event','update_by']
       #fields=('__all__')
 
 class AssignmentForm(forms.ModelForm):
    class Meta:
       model=Assignment
-      exclude=['Event']
+      exclude=['Event','update_by']
    
