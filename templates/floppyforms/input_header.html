@@ -1,0 +1,17 @@
+{% block content %}
+<div class="form-group-sm {% if field.errors %}  has-error has-feedback {%endif%}"> 
+	<label class="" for="{{ name }}">{{label}}</label>
+	<input type="{{ type }}" name="{{ name }}" class='form-control' placeholder="{{help_text}}"  {% if value %} value="{{ value }}"{% endif %}{% if required %} required{% endif %}{% include "floppyforms/attrs.html" %}
+		{% if datalist %} list="{{ attrs.id }}_list"{% endif %}>{% if datalist %}
+	<datalist id="{{ attrs.id }}_list">{% for item in datalist %}
+		<option value="{{ item }}">{% endfor %}
+	</datalist>{% endif %}{% endblock %}
+</div>
+
+
+
+<!-- <div class="form-group has-error has-feedback">
+	<label for="errorInput">Error Input</label>
+	<input type="text" id="errorInput" value="Error" class="form-control">
+	<small id="emailHelp" class="form-text text-muted">Please provide a valid informations.</small>
+</div> -->

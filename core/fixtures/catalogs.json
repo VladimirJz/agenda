@@ -1,0 +1,223 @@
+[
+  {
+    "model": "fleet.VehicleManufacturer",
+    "pk": 1,
+    "fields": {
+      "ManufacturerName": "Ford",
+      "Brand": "Ford"
+    }
+  },
+
+    {
+    "model": "fleet.VehicleManufacturer",
+    "pk": 2,
+    "fields": {
+      "ManufacturerName": "PSA",
+      "Brand": "Peugeot"
+    }
+  },
+
+    {
+    "model": "fleet.VehicleManufacturer",
+    "pk": 3,
+    "fields": {
+      "ManufacturerName": "Honda",
+      "Brand": "Honda"
+    }
+  },
+
+    {
+    "model": "fleet.VehicleManufacturer",
+    "pk": 4,
+    "fields": {
+      "ManufacturerName": "Honda",
+      "Brand": "Acura"
+    }
+  },
+     {
+    "model": "fleet.VehicleManufacturer",
+    "pk": 5,
+    "fields": {
+      "ManufacturerName": "Volkswagen",
+      "Brand": "Volkswagen"
+    }
+  },
+       {
+    "model": "fleet.VehicleManufacturer",
+    "pk": 6,
+    "fields": {
+      "ManufacturerName": "Volkswagen",
+      "Brand": "Seat"
+    }
+  },
+       {
+    "model": "fleet.VehicleManufacturer",
+    "pk": 7,
+    "fields": {
+      "ManufacturerName": "Volkswagen",
+      "Brand": "Audi"
+    }
+  },
+    {
+    "model": "fleet.VehicleManufacturer",
+    "pk": 8,
+    "fields": {
+      "ManufacturerName": "Toyota",
+      "Brand": "Toyota"
+    }
+  },
+    {
+    "model": "fleet.VehicleManufacturer",
+    "pk": 9,
+    "fields": {
+      "ManufacturerName": "GM",
+      "Brand": "Chevrolet"
+    }
+  },
+    {
+    "model": "fleet.VehicleManufacturer",
+    "pk": 10,
+    "fields": {
+      "ManufacturerName": "Nissan",
+      "Brand": "Nissan"
+    }
+  },
+    {
+    "model": "fleet.VehicleManufacturer",
+    "pk": 11,
+    "fields": {
+      "ManufacturerName": "Renault",
+      "Brand": "Renault"
+    }
+  },
+    {
+    "model": "fleet.VehicleManufacturer",
+    "pk": 12,
+    "fields": {
+      "ManufacturerName": "Chysler",
+      "Brand": "Jeep"
+    }
+  },
+      {
+    "model": "fleet.VehicleManufacturer",
+    "pk": 13,
+    "fields": {
+      "ManufacturerName": "Chysler",
+      "Brand": "RAM"
+    }
+  },
+      {
+    "model": "fleet.VehicleManufacturer",
+    "pk": 14,
+    "fields": {
+      "ManufacturerName": "Chysler",
+      "Brand": "Dodge"
+    }
+  },
+        {
+    "model": "fleet.VehicleManufacturer",
+    "pk": 15,
+    "fields": {
+      "ManufacturerName": "Hyundai",
+      "Brand": "Hyundai"
+    }
+  },
+          {
+    "model": "fleet.VehicleManufacturer",
+    "pk": 16,
+    "fields": {
+      "ManufacturerName": "Hyundai",
+      "Brand": "Kia"
+    }
+  },
+
+
+
+
+
+
+
+
+
+
+  {
+    "model": "fleet.VehicleClasification",
+    "pk": 1,
+    "fields": {
+      "ClasificationName": "Motocicleta",
+      "Code": "MOTO1"
+    }
+  },
+
+  {
+    "model": "fleet.VehicleClasification",
+    "pk": 2,
+    "fields": {
+      "ClasificationName": "Motocicleta de reparto",
+      "Code": "MOTO2"
+    }
+  },
+  
+  {
+    "model": "fleet.VehicleClasification",
+    "pk": 3,
+    "fields": {
+      "ClasificationName": "Auto compacto",
+      "Code": "AUTO1"
+    }
+  },
+  {
+    "model": "fleet.VehicleClasification",
+    "pk": 4,
+    "fields": {
+      "ClasificationName": "SUV / miniSUV",
+      "Code": "AUTO2"
+    }
+  },
+  {
+    "model": "fleet.VehicleClasification",
+    "pk": 5,
+    "fields": {
+      "ClasificationName": "Camioneta Pickup",
+      "Code": "CAM1"
+    }
+  },
+  {
+    "model": "fleet.VehicleClasification",
+    "pk": 6,
+    "fields": {
+      "ClasificationName": "Camioneta Pickup con Redilas",
+      "Code": "CAM2"
+    }
+  },
+
+  {
+    "model": "fleet.VehicleClasification",
+    "pk": 7,
+    "fields": {
+      "ClasificationName": "Camioneta pickup con Caja seca",
+      "Code": "CAM3"
+    }
+  },
+  {
+    "model": "fleet.VehicleClasification",
+    "pk": 8,
+    "fields": {
+      "ClasificationName": "Trasporte de Carga",
+      "Code": "CARG1"
+    }
+  },
+  {
+    "model": "fleet.VehicleClasification",
+    "pk": 9,
+    "fields": {
+      "ClasificationName": "Vehiculo montacarga",
+      "Code": "CARG2"
+    }
+  }
+
+  
+
+
+]
+

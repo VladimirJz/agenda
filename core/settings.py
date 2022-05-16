@@ -23,6 +23,8 @@ CSRF_TRUSTED_ORIGINS = ['http://localhost:85', 'http://127.0.0.1', 'https://' + 
 
 # Application definition
 
+# Fixtures
+FIXTURE_DIRS=['/core/fixtures/']
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -35,6 +37,7 @@ INSTALLED_APPS = [
     'apps.home',  # Enable the inner home (home)
     'apps.company',
     'apps.fleet',
+    #'apps.customer',
 ]
 
 MIDDLEWARE = [
@@ -75,24 +78,24 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-# DATABASES = {
-#       'default': {
-#           'ENGINE': 'django.db.backends.sqlite3',
-#           'NAME': 'db.sqlite3',
-#       }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'db.sqlite3',
+    }
+}
+
+
+# DATABASES={
+# 'default': {
+#           'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#           'NAME': 'app',
+#           'USER': 'app',
+#           'PASSWORD': '#1Qazse4#',
+#           'HOST': 'localhost',
+#           'PORT': '5432'
+#           },
 #   }
-
-
-DATABASES={
-'default': {
-          'ENGINE': 'django.db.backends.postgresql_psycopg2',
-          'NAME': 'app',
-          'USER': 'app',
-          'PASSWORD': '#1Qazse4#',
-          'HOST': 'localhost',
-          'PORT': '5432'
-          },
-  }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators

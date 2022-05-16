@@ -71,7 +71,7 @@ class Vehicle(models.Model):
     EnrollmentID=models.CharField(max_length=12,help_text='Matricula Vehicular',verbose_name='Matricula')
     Transmission=models.SmallIntegerField(choices=TRANSMISSION_TYPE,help_text='Tipo de transmisión',verbose_name='Transmision')
     Motor=models.CharField(max_length=30,help_text='Detalle de motor',verbose_name='Motor')
-    FuelType=models.SmallIntegerField(choices=FUEL_TYPE,verbose_name='Tipo de Combustible',help_text='Tipo de combustible',default=1)
+    FuelType=models.SmallIntegerField(choices=FUEL_TYPE,verbose_name='Tipo  ',help_text='Tipo de combustible',default=1)
     TankCapacity=models.PositiveIntegerField(verbose_name='Capacidad del tanque',help_text='Capacidad del tanque de combustible',null=True)
     SerialNumber=models.CharField(max_length=30,help_text='Numero de serie',verbose_name='NS')
     EngineSerialNumber=models.CharField(max_length=30,help_text='Serie del motor',verbose_name='NS Motor')
@@ -171,12 +171,12 @@ class Supply(models.Model):
 # Suministro de Combustible
 class FuelSupply(models.Model):
     Event=models.ForeignKey(Event,on_delete=models.SET_NULL,null=True)
-    Type=models.SmallIntegerField(choices=FUEL_TYPE,verbose_name='Tipo de Combustible',help_text='Tipo de combustible',default=1)
+    Type=models.SmallIntegerField(choices=FUEL_TYPE,verbose_name='Tipo',help_text='Tipo de combustible',default=1)
     FuelReading=models.PositiveSmallIntegerField(verbose_name='Indicador de combustible',help_text='Porcentaje de combustible en el Tanque',default=0)
     #FullTank=models.BooleanField(default=False,verbose_name='Tanque lleno?',help_text='Se llena el tanque con la carga de combustible')
     Quantity=models.PositiveSmallIntegerField(verbose_name='Cantidad',help_text='Unidades disponibles',default=0)
     CostPerUnit=models.DecimalField(decimal_places=2,max_digits=6, verbose_name='Costo por unidad',help_text='Costo por unidad',default=0.0)
-    TraveledReading=models.PositiveIntegerField(verbose_name='Indicador de recorrido.',help_text='Medición del odometro',default=0)
+    TraveledReading=models.PositiveIntegerField(verbose_name='Kilometraje.',help_text='Medición del odometro',default=0)
     Comments=models.CharField(max_length=300,verbose_name='Comentarios',help_text='Comentarios / Referencia',null=True)
     update_by=models.ForeignKey(User,on_delete=models.SET_NULL,null=True,blank=True)
     update_on=models.DateTimeField(auto_now_add=True,blank=True,null=True)

@@ -1,12 +1,29 @@
 {% block content %}
-<div class="form-group-sm {% if field.errors %}  has-error has-feedback {%endif%}"> 
-	<label class="" for="{{ name }}">{{label}}</label>
-	<input type="{{ type }}" name="{{ name }}" class='form-control' placeholder="{{help_text}}"  {% if value %} value="{{ value }}"{% endif %}{% if required %} required{% endif %}{% include "floppyforms/attrs.html" %}
-		{% if datalist %} list="{{ attrs.id }}_list"{% endif %}>{% if datalist %}
-	<datalist id="{{ attrs.id }}_list">{% for item in datalist %}
-		<option value="{{ item }}">{% endfor %}
-	</datalist>{% endif %}{% endblock %}
+<div     class="form-group-sm form-inline {% if field.errors %}  has-error has-feedback {%endif%}"> 
+			<div align="left" class="col-md-6">
+
+				<label class="form-inline"  for="{{ name }}">{{label}}</label>
+				
+			</div>
+		<div  align="right" class="col-md-2 ">
+
+			<input type="{{ type }}" name="{{ name }}" class='form-control form-inline' placeholder="{{help_text}}"  {% if value %} value="{{ value }}"{% endif %}{% if required %} required{% endif %}{% include "floppyforms/attrs.html" %} 
+			
+			{% if datalist %} list="{{ attrs.id }}_list"{% endif %}>{% if datalist %}
+			<datalist id="{{ attrs.id }}_list">{% for item in datalist %}
+				<option value="{{ item }}">{% endfor %}
+				</datalist>{% endif %}{% endblock %}
+			</div>
 </div>
+
+
+
+<!-- <div class="form-group form-inline">
+	<label for="inlineinput" class="col-md-3 col-form-label">Nombre:</label>
+	<div class="col-md-9 p-0">
+		<input type="text" id="inlineinput" placeholder="Enter Input" class="form-control">
+	</div>
+</div> -->
 
 
 

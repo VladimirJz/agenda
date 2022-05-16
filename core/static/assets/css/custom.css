@@ -1,0 +1,11 @@
+.
+.form-inline
+{
+	height:auto;
+}
+.form-inline label {
+	 
+	justify-content:left;}
+.form-inline select {
+		display: grid;
+		justify-content:center;}

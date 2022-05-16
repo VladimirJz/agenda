@@ -26,27 +26,74 @@
 						<div class="card-body">
 <!---  Content here ! -->                  {% include 'includes/messages.html' %}
 
-                        <form method="POST">
-                            <input name="vehicle_id" type="hidden" value={{ vehicle.id }} />
+                        <form method="POST" >
+                            <div>
+
+                                <input name="vehicle_id" type="hidden" value={{ vehicle.id }} />
+                            </div>
                             {% csrf_token %}
+
                             <div class="form-row">
-                                <div class="form-group-sm col-md-2">
-                                    {% formrow event_form.Date %}
-                                </div>
-                                <div class="form-group-sm col-md-3">
+                                <div class="col-md-4">
                                     {% formrow event_form.Time %}
                                 </div>
-                                <div class="form-group-sm col-md-5">
+                                
+                                <div class="col-md-4">
+                                    {% formrow event_form.Date %}
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    {% formrow event_form.Date %}
+                                </div>
+                                
+                            </div>
+    
+                            <div class="form-row">
+                                <div class="col-md-4">
+                                    {% formrow fuelsupply_form.Type %} 
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    {% formrow fuelsupply_form.Quantity %}
+                                </div>
+                                <div class="col-md-4">
+                                    {% formrow fuelsupply_form.Quantity %}
+                                </div>
+                                
+                            </div>
+    
+   
+                            <div class="form-row">
+                                <div class="col-md-4">
+                                    {% formrow event_form.Driver %}
+                                </div>
+                                <div class="col-md-4">
+                                    {% formrow fuelsupply_form.Quantity %}
+                                </div>
+
+                                <div class="col-md-4">
+                                    {% formrow fuelsupply_form.CostPerUnit %}                                
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-row">
+                                <div class="form-group-sm col-md-12">
+                                    {% formrow event_form.Driver %}
+                                </div>
+                            </div>
+                            
+
+
+
+
+                            <div class="form-row">
+                                <div class="form-group-sm col-md-4">
                                     {% formrow event_form.Driver %}
                                 
                                 </div>
-                                <div class="form-group-sm col-md-2">                                
-                                </div>
-                            </div>
-                        
-
-                            <div class="form-row">
-                               
+                                
                                 <div class="form-group-sm col-md-2">
                                     {% formrow fuelsupply_form.Type %}                                    
                                 </div>

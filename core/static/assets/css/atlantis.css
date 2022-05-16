@@ -3384,7 +3384,8 @@ label {
     padding: .375rem 0 .75rem; }
 
 .form-inline label {
-  margin-bottom: 0 !important; }
+  margin-bottom: 0 !important; 
+  justify-content:left;}
 
 .input-fixed {
   width: 200px; }

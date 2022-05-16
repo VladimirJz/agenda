@@ -28,9 +28,22 @@
 
                         <form method="POST">
                             {% csrf_token %}
-                            {{form.as_p}}
-                               
-                           
+
+                            <div class="form-row">
+                                <div class="form-group-sm col-md-2">
+                                    {% formrow form.Manufacturer %}
+                                </div>
+                                <div class="form-group-sm col-md-3">
+                                    {% formrow form.Clasification %}
+                                </div>
+                                <div class="form-group-sm col-md-5">
+                                    {% formrow form.Model %}
+                                
+                                </div>
+                                <div class="form-group-sm col-md-2">                                
+                                </div>
+                            </div>
+
 
                         <input id='submit' type="submit" class='btn btn-success' value="Guardar"></input> 
                         <a href="{% url 'flota_vehiculos' %}" type="button" class="btn">Cancelar</a>
