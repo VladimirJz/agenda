@@ -60,7 +60,7 @@
 						<!-- menu -->
 						<li class="nav-item {% if app == 'flota' %} active {% endif %}">
 							<a data-toggle="collapse" href="#flota" class="collapsed" aria-expanded="false">
-								<i class="fas fa-shipping-fast"></i>
+								<i class="fas fa-calendar-check"></i>
 								<p>Agenda</p>
 								<span class="caret"></span>
 							</a>
@@ -80,13 +80,37 @@
 								</ul>
 							</div>
 						</li>
+						<!-- menu -->
+						<li class="nav-item {% if app == 'flota' %} active {% endif %}">
+							<a data-toggle="collapse" href="#employes" class="collapsed" aria-expanded="false">
+								<i class="fas fa-user" ></i>
+								<p>Empleados</p>
+								<span class="caret"></span>
+							</a>
+							<div class="collapse" id="employes">
+								<ul class="nav nav-collapse">
+									<!-- submenu item -->
+									<li>
+										<a href="">
+											<span class="sub-item">Consulta</span>
+										</a>
+									</li>
+									<li>
+										<a href="">
+											<span class="sub-item">...</span>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</li>
 
-						<li class="nav-section">
+
+						<!-- <li class="nav-section">
 							<span class="sidebar-mini-icon">
 								<i class="fa fa-ellipsis-h"></i>
 							</span>
 							<h4 class="text-section">Components</h4>
-						</li>
+						</li> -->
 						
 						
 				{% else %}
