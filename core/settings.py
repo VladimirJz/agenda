@@ -34,10 +34,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'core',
     'floppyforms',
-    'apps.home',  # Enable the inner home (home)
+    'apps.home',
     'apps.company',
-    'apps.fleet',
-    #'apps.customer',
+    'apps.appointments'
+    
 ]
 
 MIDDLEWARE = [
