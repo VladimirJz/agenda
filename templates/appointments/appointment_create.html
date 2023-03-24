@@ -1,0 +1,140 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Dashboard {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<div class="content">
+    <div class="page-inner">
+        <div class="page-header">
+            <h4 class="page-title">Agenda</h4>
+            {% include 'includes/breadcrumb.html' %}
+
+        </div>
+        <!-- end header -->
+<!--title -->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card">
+						<div class="card-header">
+							<h4 class="card-title">Nueva Cita</h4>
+						</div>
+
+						<div class="card-body">
+<!-- 
+    AQUI VA EL CONTENIDO >>>
+-->
+FORMULARIO
+{% csrf_token %}
+
+                            <div class="form-row">
+                                <div class="col-md-4">
+                                    Control 1
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    Control 2
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    Control 3
+                                </div>
+                                
+                            </div>
+    
+                            <div class="form-row">
+                                <div class="col-md-4">
+                                    control 1 fila 2
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    control 2 fila 2
+                                </div>
+                                <div class="col-md-4">
+                                    control 3 fila 2
+                                </div>
+                                
+                            </div>
+    
+   
+                            <div class="form-row">
+                                <div class="col-md-4">
+                                    control 1    fila 3
+                                </div>
+                                <div class="col-md-4">
+                                    control 2    fila 3
+                                </div>
+
+                                <div class="col-md-4">
+                                    control 3    fila 3
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-row">
+                                <div class="form-group-sm col-md-12">
+                                </div>
+                            </div>
+                            
+
+
+
+
+                            <div class="form-row">
+                                <div class="form-group-sm col-md-4">
+                                
+                                </div>
+                                
+                                <div class="form-group-sm col-md-2">
+                                </div>
+                                <div class="form-group-sm col-md-2">
+                                </div>
+                                <div class="form-group-sm col-md-2">
+                                </div>
+                                <div class="form-group-sm col-md-4">                                
+                                </div>
+                                <div class="form-group-sm col-md-2">                                
+                                </div>
+
+                              
+                            </div>
+
+                            
+                            <div class="form-row">
+                                <div class="form-group-sm col-md-3">
+                                </div>
+                                <div class="form-group-sm col-md-7">
+                                </div>
+                                <div class="form-group-sm col-md-2"></div>
+                            </div>
+                                </div>
+                            </div>
+
+                        <input id='submit' type="submit" class='btn btn-primary' value="Guardar"></input> 
+                        &nbsp;<a href="" type="button" class="btn btn-border btn-primary">Cancelar</a>
+                        
+                        </form>
+
+<!-- 
+    <<  AQUI VA EL CONTENIDO
+-->
+
+
+                            <!-- footer -->
+                    </div>
+                </div>
+            </div>
+        </div>
+<!-- -->
+    </div>
+</div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+
+{% endblock javascripts %}

@@ -6,7 +6,6 @@
 				{% if request.user.is_authenticated %}	
 					<div class="user">
 						<div class="avatar-sm float-left mr-2">
-							<!-- <img src="/static/assets/img/profile.jpg" alt="..." class="avatar-img rounded-circle"> -->
 							<img src="https://ui-avatars.com/api/?name={{ request.user.username  }}" alt="profile"  class="avatar-img rounded-circle" >
 						</div>
 						<div class="info">
@@ -25,11 +24,11 @@
 								<ul class="nav">
 									<li>
 										<a href="#profile">
-											<span class="link-collapse">My Profile</span>
+											<span class="link-collapse">Perfil</span>
 										</a>
 									</li>
 									<li>
-										<a href="{% url 'logout' %}">
+										<a href="">
 											<span class="link-collapse">Logout</span>
 										</a>
 									</li>
@@ -62,20 +61,20 @@
 						<li class="nav-item {% if app == 'flota' %} active {% endif %}">
 							<a data-toggle="collapse" href="#flota" class="collapsed" aria-expanded="false">
 								<i class="fas fa-shipping-fast"></i>
-								<p>Flota</p>
+								<p>Agenda</p>
 								<span class="caret"></span>
 							</a>
 							<div class="collapse" id="flota">
 								<ul class="nav nav-collapse">
 									<!-- submenu item -->
 									<li>
-										<a href="{% url 'flota_vehiculos' %}">
-											<span class="sub-item">Vehiculos</span>
+										<a href="">
+											<span class="sub-item">Citas</span>
 										</a>
 									</li>
 									<li>
-										<a href="{% url 'flota_asignacion' %}">
-											<span class="sub-item">Asignación</span>
+										<a href="">
+											<span class="sub-item">Calendario</span>
 										</a>
 									</li>
 								</ul>
@@ -89,97 +88,7 @@
 							<h4 class="text-section">Components</h4>
 						</li>
 						
-						<li class="nav-item {% if 'form' in segment %} active {% endif %}">
-							<a data-toggle="collapse" href="#forms">
-								<i class="fas fa-pen-square"></i>
-								<p>Forms</p>
-								<span class="caret"></span>
-							</a>
-							<div class="collapse" id="forms">
-								<ul class="nav nav-collapse">
-									<li>
-										<a href="home/forms.html">
-											<span class="sub-item">Basic Form</span>
-										</a>
-									</li>
-								</ul>
-							</div>
-						</li>
-						<li class="nav-item {% if 'tables' in segment %} active {% endif %}">
-							<a data-toggle="collapse" href="#tables">
-								<i class="fas fa-table"></i>
-								<p>Tables</p>
-								<span class="caret"></span>
-							</a>
-							<div class="collapse" id="tables">
-								<ul class="nav nav-collapse">
-									<li>
-										<a href="home/tables-simple.html">
-											<span class="sub-item">Basic Table</span>
-										</a>
-									</li>
-									<li>
-										<a href="/tables-data.html">
-											<span class="sub-item">Datatables</span>
-										</a>
-									</li>
-								</ul>
-							</div>
-						</li>
 						
-						<li class="nav-item">
-							<a data-toggle="collapse" href="#submenu">
-								<i class="fas fa-bars"></i>
-								<p>Menu Levels</p>
-								<span class="caret"></span>
-							</a>
-							<div class="collapse" id="submenu">
-								<ul class="nav nav-collapse">
-									<li>
-										<a data-toggle="collapse" href="#subnav1">
-											<span class="sub-item">Level 1</span>
-											<span class="caret"></span>
-										</a>
-										<div class="collapse" id="subnav1">
-											<ul class="nav nav-collapse subnav">
-												<li>
-													<a href="#">
-														<span class="sub-item">Level 2</span>
-													</a>
-												</li>
-												<li>
-													<a href="#">
-														<span class="sub-item">Level 2</span>
-													</a>
-												</li>
-											</ul>
-										</div>
-									</li>
-									<li>
-										<a data-toggle="collapse" href="#subnav2">
-											<span class="sub-item">Level 1</span>
-											<span class="caret"></span>
-										</a>
-										<div class="collapse" id="subnav2">
-											<ul class="nav nav-collapse subnav">
-												<li>
-													<a href="#">
-														<span class="sub-item">Level 2</span>
-													</a>
-												</li>
-											</ul>
-										</div>
-									</li>
-									<li>
-										<a href="#">
-											<span class="sub-item">Level 1</span>
-										</a>
-									</li>
-								</ul>
-							</div>
-						</li>
-						
-					</ul>
 				{% else %}
 					<ul class="nav nav-primary">
 						<li class="mx-4 mt-2">
