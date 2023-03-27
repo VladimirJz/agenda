@@ -34,6 +34,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'core',
     'floppyforms',
+    'rest_framework',
+    'apps.api',
     'apps.home',
     'apps.company',
     'apps.appointments'
