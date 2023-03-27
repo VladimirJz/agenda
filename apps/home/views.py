@@ -36,7 +36,7 @@ def index(request):
 
 class EmploySearchView(TemplateView):  
     template_name='home/employ_search.html'
-    context_object_name='search'
+    #context_object_name='search'
     
     # def get(self, request, *args, **kwargs):  
 
@@ -58,13 +58,12 @@ class EmploySearchView(TemplateView):
         text=''
         if( kwargs ):
             text=kwargs['text']
-            r= requests.get('http://localhost:8000/api/v1/employes/')
+            r= requests.get(f"http://10.186.2.27:8000/apiv1/employ/?name={text}")
+            print(r.json())
             context["results"]=r.json()
         else:
             context["results"]={}
         menu='combustible'
-        go_back='flota_vehiculos'
-        context['go_back']=go_back
         context['app']='employes'
         context['menu']=menu
         context['options']=options
