@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.urls import reverse
 # Create your models here.
 #
 PRIORITIES=[(1,'Ugente'),(2,'Alta'),(3,'Normal')]
@@ -8,23 +8,22 @@ class Appointment(models.Model):
     subject=models.CharField(max_length=200,verbose_name='Asunto')
     date= models.DateField(verbose_name='Fecha')
     location=models.CharField(max_length=400,verbose_name='Ubicaciòn')
-    notes=models.TextField(null=True,blank=True)
     status=models.SmallIntegerField(choices=STATUS,default=1)
+    start=models.TimeField(verbose_name='Hora de Inicio',null=True)
+    end=models.TimeField(verbose_name='Hora fin:',null=True)
+    priority=models.SmallIntegerField(choices=PRIORITIES,null=True)
+    employ_id=models.IntegerField(verbose_name='Número de empleado',null=True,blank=True)  
+    employ_name=models.CharField(max_length=50,verbose_name='Nombre', null=True)
+    employ_title=models.CharField(max_length=30,verbose_name='Puesto',null=True)
+    notes=models.TextField(null=True,blank=True)
+    update_on=models.DateTimeField(auto_now=True)
+    user_id=models.IntegerField(default=0,null=True)
+
     def __str__(self) -> str:
         return self.subject
-    
-    
-class Schedule(models.Model):
-    appointment=models.OneToOneField(Appointment,related_name='schedule',on_delete=models.SET_NULL,null=True)
-    start=models.DateTimeField(verbose_name='Desde')
-    end=models.DateTimeField(verbose_name='Hasta:')
-    priority=models.SmallIntegerField(choices=PRIORITIES)
-    def __str__(self) -> str:
-        return str(self.start.hour) +'-' + str(self.end.hour)
+    class Meta:
+        db_table = "appointments_data"
+        verbose_name_plural = "appointments"
 
-class Guest(models.Model):
-    appointment=models.OneToOneField(Appointment,related_name='guest',on_delete=models.SET_NULL,null=True)
-    name=models.CharField(max_length=50,verbose_name='Nombre')
-    title=models.CharField(max_length=30,verbose_name='Puesto')  
-    def __str__(self) -> str:
-        return self.name 
+    def get_absolute_url(self):
+        return reverse('home')

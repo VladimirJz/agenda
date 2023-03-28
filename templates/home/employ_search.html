@@ -70,28 +70,46 @@
 
     <div class="table-responsive">
         <table id="basic-datatables" class="display table table-striped table-hover" >
-            {% for r in results %}
-                {% if forloop.first %}
-                    <thead>
-                        <tr>
-                            {% for fieldname in r.keys %}<th>{{ fieldname }}</th>{% endfor %}
-                            {% if options %}
-                            <td>...</td>
-                            {% endif %}
-                        </tr>
-                    </thead>
-                    <tbody>
-                {% endif %}
-                    <tr>
-                    {% for value in r.values %}
-                        <td>{{ value }}</td>
-                    {% endfor %}
+            <thead>
+                <tr>
+                    <th>Empleado</th>
+                    <th>Nombre</th>
+                    <th>Filiación</th>
+                    <th>Nomina</th>
+                    <th> 
+                    <div class="row">
+                        <div class="col">Centro de Trabajo</div>
+                        <div class="col">Plaza</div>
+                        <div class="col">Ingreso</div>
+                    </div>
+                      
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in results %}
+                <tr>
+                    <td>{{ row.employ_id }}</td>
+                    <td><b>{{ row.last_name }}</b> &nbsp; {{row.names}}  </td>
+                    <td>{{ row.RFC }}</td>
+                    <td>{{ row.company }}</td>
+                    <td>
+                        {% for pos in row.positions%}
+                        <div class="row h6">
+                            <div class="col h6"> 
+                                <span class="h6">{{pos.work_place}}</span></div>
+                            <div class="col">{{pos.job_position}}</div>
+                            <div class="col" style="float: left">{{pos.income}}</div>
+                        </div>
+                        {% endfor %}
+                                
+                    </td>
                     {% if options %}
                         <td>
                             <button class="btn btn-primary btn-link dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-tasks"></i></button>
                             <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(140px, 43px, 0px); top: 0px; left: 0px; will-change: transform;">
-                                {%for option in options%}	
-                                <a class="dropdown-item" href="{% url option.url  %}"> 
+                                {% for option in options%}	
+                                <a class="dropdown-item" href="{% url option.url  row.employ_id  %}"> 
                                 <div class="row">
                                     <div></div>
                                     <div class="col-sm-2"><i class="{{option.icon}}"></i></div> &nbsp;&nbsp; {{option.label}}
@@ -107,16 +125,21 @@
                                 <div role="separator" class="dropdown-divider"></div>
                                 <a class="dropdown-item" href=""><i class="fas fa-clipboard-list"></i>  &nbsp;&nbsp; Ver detalle</a>
 
-                            <!-- <a class="dropdown-item" href="#">.. Mantenimiento</a>
-                            <a class="dropdown-item" href="#">..Otro</a> -->
+
                         </div>
                         </td>
                     {% endif %}
-                    </tr>
+                </tr>
 
-            {% endfor %}
-                </tbody>
+                {% endfor %}
+            </tbody>
         </table>
+
+
+
+
+         
+    
     </div>							
     <!-- TABLE END -->	
 </div>

@@ -1,0 +1,118 @@
+{% extends "layouts/base.html" %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+
+{% load floppyforms %}
+{% load core_extras %}
+
+
+{% block title %} Evento {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<div class="content">
+    <div class="page-inner">
+        <div class="page-header">
+            <h4 class="page-title">Detalle</h4>
+            {% include 'includes/breadcrumb.html' %}
+
+        </div>
+        <!-- end header -->
+<!--title -->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card">
+						<div class="card-header">
+							<h4 class="card-title"></h4>
+						</div>
+
+						<div class="card-body">
+<!-- 
+    AQUI VA EL CONTENIDO >>>
+
+
+    
+-->
+
+
+<div class="card-header">
+    <div class="profile-picture row">
+        <div class="col-md-1">
+
+            <div class="avatar avatar-l" >
+                <img src="https://ui-avatars.com/api/?&backgroud=EC1802&color=fff&name={{ object.date | date:'d' }}" alt="Empleado"  class="avatar-img rounded-circle" >       
+            </div>
+        </div>
+        <div class="col-md-11">
+            <span class="h1"> {{object.subject }} </span>
+            
+        </div>
+    </div>
+</div>
+
+<div class="card-body">
+    <div class="">
+        <div class="row">
+            <div class="col-md-2"><span class="h2">Fecha:</span></div>
+            <div class="col-md-8"><span class="lead">{{object.date}}</span> </div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"><span class="h2"></span></div>
+            <div class="col-md-8"><span class="lead">{{object.start}} - {{object.end}}</span> </div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"><span class="h2">Responsable:</span></div>
+            <div class="col-md-8"><span class="lead">{{object.employ_lastname}}  &nbsp;  {{object.employ_name}}</span> </div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"><span class="h2">Ubicación:</span></div>
+            <div class="col-md-8"><span class="lead">{{object.location}}</span> </div>
+            <div class="col-md-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"><span class="h2">Puesto:</span></div>
+            <div class="col-md-8"><span class="lead">{{object.employ_title}}</span> </div>
+            <div class="col-md-2"></div>
+        </div>
+    </div>
+</div>
+<div class="card-footer">
+    <div class="row">
+        <div class="col-md-2"><span class="h2">Notas:</span></div>
+        <div class="col-md-6"><span class="lead"> <p class="lead">{{object.notes}}</p></span> </div>
+        <div class="col-md-4"></div>
+    </div>
+    </div>
+</div> <!-- card -->
+
+</div>
+
+<div class="row">
+<div  class="col-md-2"> 
+
+    <a href="{% url 'appointment_update' object.id %}" type="button" class="btn btn-primary">Actualizar</a>
+    <a href="{% url go_back %}" type="button" class="btn btn-border btn-primary">Cancelar</a>
+</div>
+<div  class="col-md-8"> 
+    
+</div>
+<div  class="col-md-2"> 
+    
+    <a href="{% url go_back %}" type="button" class="btn btn-danger">Eliminar</a>
+</div>
+</div>
+
+
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+
+{% endblock javascripts %}

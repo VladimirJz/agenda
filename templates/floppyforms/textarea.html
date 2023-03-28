@@ -1,1 +1,13 @@
-<textarea name="{{ name }}"{% if required %} required{% endif %}{% include "floppyforms/attrs.html" %}>{% if value %}{{ value }}{% endif %}</textarea>
+
+<div class="form-group-md form-inline">
+	<!-- <div align="left" lass="col-md-6"> -->
+		<!-- <label class="col-form-label"   for="{{ name }}">{{label}}</label> -->
+		<label class="col-md-3 col-form-label"  for="{{ name }}">{{label}}</label>
+
+	<!-- </div> -->
+<div aling="left" class="col-md-9 p-0" >
+<textarea  class= "form-control" cols=80 rows=3  name="{{ name }}"{% if required %} required{% endif %}{% include "floppyforms/attrs.html" %}>{% if value %}{{ value }}{% endif %}</textarea>
+
+
+</div>
+</div>

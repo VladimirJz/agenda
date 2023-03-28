@@ -27,7 +27,6 @@ class DashboardView(TemplateView):
 
         return context
 
-@login_required(login_url="/login/")
 def index(request):
     context = {'segment': 'index'}
 
@@ -36,11 +35,6 @@ def index(request):
 
 class EmploySearchView(TemplateView):  
     template_name='home/employ_search.html'
-    #context_object_name='search'
-    
-    # def get(self, request, *args, **kwargs):  
-
-    #     return self.post(request, *args, **kwargs)
     
     def post(self, request):
         post_data = request.POST or None
@@ -48,19 +42,21 @@ class EmploySearchView(TemplateView):
         print(post_data["text_to_search"])
         context=self.get_context_data(text=post_data["text_to_search"])
         return self.render_to_response(context)
-    #model=Appointment
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        options=[{'url':'employ_search','icon':'far fa-calendar-plus','label':'Cita'},
+        options=[{'url':'appointment_new','icon':'far fa-calendar-plus','label':'Cita'},
        ]
         print(kwargs)
         text=''
         if( kwargs ):
             text=kwargs['text']
-            r= requests.get(f"http://10.186.2.27:8000/apiv1/employ/?name={text}")
-            print(r.json())
-            context["results"]=r.json()
+            try:
+                r= requests.get(f"http://10.186.2.27:8000/apiv1/employ/?name={text}")
+                print(r.json())
+                context["results"]=r.json()
+            except :
+                context["results"]=[{"employ_id": 127738,"last_name": "VICENTE MEDINA","names": "NEREIDA","RFC": "VIMN800426B92","CURP": "VIMN800426MOCCDR02","company_id": "2","company": "BASICA","positions": {"job_position_id": 218673,"job_position": "072006A01806000200525","work_place": "20DES0077S","income": "6726.00"}},{"employ_id": 127739,"last_name": "VICENTE MEDINA","names": "NORMA","RFC": "VIMN7705258A4","CURP": "VIMN770525MOCCDR03","company_id": "2","company": "BASICA","positions": {"job_position_id": 69091,"job_position": "078713 E0363120000404","work_place": "20DES0161Q","income": "4805.00"}},{"employ_id": 127739,"last_name": "VICENTE MEDINA","names": "NORMA","RFC": "VIMN7705258A4","CURP": "VIMN770525MOCCDR03","company_id": "2","company": "BASICA","positions": {"job_position_id": 65290,"job_position": "078713 E0363030201608","work_place": "20DES0161Q","income": "1202.00"}},{"employ_id": 127739,"last_name": "VICENTE MEDINA","names": "NORMA","RFC": "VIMN7705258A4","CURP": "VIMN770525MOCCDR03","company_id": "2","company": "BASICA","positions": {"job_position_id": 64003,"job_position": "078713 E0363020201575","work_place": "20DES0161Q","income": "801.00"}},{"employ_id": 127739,"last_name": "VICENTE MEDINA","names": "NORMA","RFC": "VIMN7705258A4","CURP": "VIMN770525MOCCDR03","company_id": "2","company": "BASICA","positions": {"job_position_id": 62009,"job_position": "078713 E0363010100042","work_place": "20DES0161Q","income": "400.00"}},{"employ_id": 127739,"last_name": "VICENTE MEDINA","names": "NORMA","RFC": "VIMN7705258A4","CURP": "VIMN770525MOCCDR03","company_id": "2","company": "BASICA","positions": {"job_position_id": 65484,"job_position": "078713 E0363030201827","work_place": "20DES0161Q","income": "1202.00"}},{"employ_id": 127739,"last_name": "VICENTE MEDINA","names": "NORMA","RFC": "VIMN7705258A4","CURP": "VIMN770525MOCCDR03","company_id": "2","company": "BASICA","positions": {"job_position_id": 62389,"job_position": "078713 E0363010200656","work_place": "20DES0161Q","income": "400.00"}}]
         else:
             context["results"]={}
         menu='combustible'

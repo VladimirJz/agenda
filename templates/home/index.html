@@ -71,11 +71,13 @@
 							<div class="d-flex">
 								<div class="avatar avatar-online">
 									<!-- <span class="avatar-title rounded-circle border border-white bg-info">J</span> -->
-									<img src="https://ui-avatars.com/api/?name={{ event.guest.name  }}" alt="guest"  class="avatar-img rounded-circle" >
+									<img src="https://ui-avatars.com/api/?name={{ event.employ_name  }}" alt="guest"  class="avatar-img rounded-circle  border border-white bg-info" >
 								</div>
 								<div class="flex-1 ml-3 pt-1">
-									<h6 class="text-uppercase fw-bold mb-1">{{ event.guest.name }} <span class="text-success pl-3">{{ event.get_status_display }}</span></h6>
+									<h6 class="text-uppercase fw-bold mb-1">{{ event.employ_name }} <span class="text-success pl-3">{{ event.get_status_display }}</span></h6>
+									<a href="{% url 'appointment_detail' event.id %} ">
 									<span class="text-muted">{{ event.subject }}</span>
+									</a>
 								</div>
 								<div class="float-right pt-1">
 									<small class="text-muted">{{ event.date |timesince }}</small>
