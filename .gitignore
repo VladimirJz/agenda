@@ -2,7 +2,7 @@
 .dev/
 __pycache__/
 *.py[cod]
-
+dev2/
 # tests and coverage
 *.pytest_cache
 .coverage

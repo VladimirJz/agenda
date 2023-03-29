@@ -3,7 +3,6 @@ from django.shortcuts import render
 from django.views.generic import TemplateView,CreateView,DeleteView,UpdateView,DetailView,ListView
 from apps.appointments.models import Appointment
 from .forms import AppointmentForm
-from bootstrap_datepicker_plus.widgets import TimePickerInput,DatePickerInput
 # Create your views here.
 
 class AppointmentView(TemplateView):  
@@ -17,6 +16,7 @@ class AppoinmentUpdateView (UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['go_back']='home'
+        context['app']='appointment'
         return context 
 
 class AppoinmentCreateView(CreateView):
@@ -42,14 +42,22 @@ class AppoinmentCreateView(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['go_back']='home'
+        context['app']='appointment'
         return context
 class AppointmentDetailView(DetailView):
     model=Appointment
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['go_back']='home'
+        context['app']='appointment'
         return context
 class AppointmentListView(ListView):
     model=Appointment
     context_object_name = 'events'
     queryset = Appointment.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['go_back']='home'
+        context['app']='appointment'
+        return context

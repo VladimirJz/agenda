@@ -6,8 +6,9 @@
 				
 				<a href="index.html" class="logo">
 					<!-- <img src="/static/assets/img/logo.svg" alt="navbar brand" class="navbar-brand"> -->
+					
 					{% for item in settings %} 
-					<p class="navbar-brand">{{ item.CompanyName}}</p>
+					<p class="navbar-brand h1" style="color:white">{{ item.CompanyName}}</p>
 					{% endfor %}
 				</a>
 				<button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">

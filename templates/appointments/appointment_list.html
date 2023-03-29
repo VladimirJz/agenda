@@ -1,6 +1,5 @@
 {% extends "layouts/base.html" %}
-{% load bootstrap4 %}
-{% bootstrap_css %}
+
 
 {% load floppyforms %}
 {% load core_extras %}
@@ -44,41 +43,57 @@
             <div class="card-tools">
                 <ul class="nav nav-pills nav-secondary nav-pills-no-bd nav-sm" id="pills-tab" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link" id="pills-today" data-toggle="pill" href="#pills-today" role="tab" aria-selected="true">Today</a>
+                        <a class="nav-link" id="pills-today" data-toggle="pill" href="#pills-today" role="tab" aria-selected="true">Hoy</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" id="pills-week" data-toggle="pill" href="#pills-week" role="tab" aria-selected="false">Week</a>
+                        <a class="nav-link active" id="pills-week" data-toggle="pill" href="#pills-week" role="tab" aria-selected="false">Esta semana</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="pills-month" data-toggle="pill" href="#pills-month" role="tab" aria-selected="false">Month</a>
+                        <a class="nav-link" id="pills-month" data-toggle="pill" href="#pills-month" role="tab" aria-selected="false">Este mes</a>
                     </li>
                 </ul>
             </div>
         </div>
     </div> <!-- del header-->
     <div class="card-body">
-        {% for event in events %}			
+        {% for event in events %}
+        <a href="{% url 'appointment_detail' event.id %}"  style="color: inherit;">
             <div class="row">
                 <div class="col-md-1">
                         <div class="avatar">
-                            <img src="https://ui-avatars.com/api/?name={{ event.employ_name  }}" alt="guest"  class="avatar-img rounded-circle  border border-white bg-info" >
+                            <img src="https://ui-avatars.com/api/?name={{ event.date | date:'d' }}" alt="guest"  class="avatar-img rounded-circle  border border-white bg-info" >
                         </div>
                 </div>
                 <div class="col-md-9">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h5 class=" fw-bold">{{ event.subject }}  &nbsp; <span class="badge muted-text btn-border" >{{ event.get_status_display }}</span></h5>
+                        </div> 
+                        <div class="col-md-4">
+                            <span class="h5">{{ event.employ_name}}
+                        </div> 
+                        <div class="col-md-4">
+                            <span class="h5">{{ event.location}}
+                        </div> 
+                    </div>
 
-                    <h4 class="text-uppercase fw-bold mb-1">{{ event.employ_name }} 
-                    </h4>
-                    
+
+                    </span>
                 </div>
                 
                 <div class="col-md-2">
-                    <a href="{% url 'appointment_detail' event.id %} ">
-                    </a>
-                    <span class="text-success pl-3">{{ event.get_status_display }}</span>
-                    <span class="text-muted">{{ event.subject }}</span>
-                    <small class="text-muted">{{ event.date |timesince }}</small>
+                    <div class="flex-1 ml-3 pt-1">
+                        <h6 class="text-uppercase fw-bold mb-1">{{ event.date | date:'l j F' }} <span class="text-warning pl-3"> <i class="fas fa-clock"></i> </span></h6>
+                        <span class="text-muted">de : {{ event.start |date:'P' }} a {{ event.end |date:'P' }}</span>
+                        
+                            
+                        
+                    </div>
+
+                  
                 </div>
             </div> <!-- row-->
+        </a>
             <div class="separator-dashed"></div>
             {% endfor %}
         </div> <!-- card body-->
