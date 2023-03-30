@@ -1,8 +1,9 @@
-from django.shortcuts import render
-
+from django.shortcuts import render,HttpResponseRedirect,redirect
+from datetime import datetime,timedelta
 from django.views.generic import TemplateView,CreateView,DeleteView,UpdateView,DetailView,ListView
 from apps.appointments.models import Appointment
 from .forms import AppointmentForm
+import requests
 # Create your views here.
 
 class AppointmentView(TemplateView):  
@@ -23,13 +24,44 @@ class AppoinmentCreateView(CreateView):
     model=Appointment
     #fields='__all__'
     form_class=AppointmentForm
+
+
     def get_initial(self):
         #print(self.request)
     
-        print(self.request.POST)
-        return { 'employ_id': self.request.GET.get('id',0) }
+        #print(self.request.POST)
+        empleado_id=self.kwargs['id']
+        default={}
+        try:
+            r= requests.get(f"http://10.186.2.27:8000/apiv1/employ/{empleado_id}")
+            print(r.json())
+            result=r.json()
+        except :
+            result={}
+
+        default['employ_name']=result.get('fullname','')
+        default['position']=result.get('title','')
+        default['employ_id']=self.kwargs['id']
+        default['date']=datetime.now()  +  timedelta(days=1)
+        default['priority']=3
+        print(default)
+        return default
+    
+
+
+
     def form_valid(self, form):
+        if form.is_valid():
+            appointment = form.save(commit=False)
+            appointment.user_id = self.request.user.id
+            appointment.save()
+            print(appointment.id)
+            print(appointment.pk)
+            return redirect('appointment_detail',pk=appointment.pk)
+
+
         #form.instance.owner = self.request.user
+
         form.save() # tried this too and it didn't work
         return super().form_valid(form)
     def get_form(self):
@@ -60,4 +92,7 @@ class AppointmentListView(ListView):
         context = super().get_context_data(**kwargs)
         context['go_back']='home'
         context['app']='appointment'
+        options={'icon':'fas fa-tasks','text':'','menu':[{'url':'appointment_detail','icon':'far fa-calendar-plus','label':'Abierta'},{'url':'appointment_detail','icon':'far fa-calendar-plus','label':'Pendiente'},{'url':'appointment_detail','icon':'far fa-calendar-plus','label':'Cancelar'}]}
+        context['options']=options
+
         return context

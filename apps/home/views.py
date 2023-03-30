@@ -45,8 +45,8 @@ class EmploySearchView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        options=[{'url':'appointment_new','icon':'far fa-calendar-plus','label':'Cita'},
-       ]
+        options={'icon':'fas fa-tasks','text':'','menu':[{'url':'appointment_new','icon':'far fa-calendar-plus','label':'Cita'},]}
+        
         print(kwargs)
         text=''
         if( kwargs ):

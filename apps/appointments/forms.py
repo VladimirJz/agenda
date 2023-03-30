@@ -6,4 +6,5 @@ import floppyforms.__future__ as forms
 class AppointmentForm(forms.ModelForm):
    class Meta:
       model=Appointment
-      fields=('__all__')
+      exclude=['user_id']
+      #fields=('__all__')

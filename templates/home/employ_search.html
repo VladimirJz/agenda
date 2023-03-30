@@ -1,5 +1,6 @@
 {% extends "layouts/base.html" %}
 {% load core_extras %}
+{% load humanize %}
 {% block title %} Dashboard {% endblock %} 
 
 {% block stylesheets %}{% endblock stylesheets %}
@@ -75,15 +76,18 @@
                     <th>Nombre</th>
                     <th>Filiación</th>
                     <th>Nomina</th>
-                    <th> 
-                    <div class="row">
-                        <div class="col">Centro de Trabajo</div>
-                        <div class="col">Plaza</div>
-                        <div class="col">Ingreso</div>
+                    <th>
+
+                   
+                    <div class="row"> 
+                        <div class="col-sm-4">Centro de Trabajo</div>
+                        <div class="col-sm-6">Plaza</div>
+                        <div class="col-sm-2"  style = "text-align:center;" >Ingreso</div>
+
                     </div>
                       
                     </th>
-                    <th>options</th>
+                    <th> . . .</th>
                 </tr>
             </thead>
             <tbody>
@@ -95,19 +99,26 @@
                     <td>{{ row.company }}</td>
                     <td>
                         {% for pos in row.positions%}
-                        <div class="row">
-                            <div class="col-sm-4 " >{{ pos.work_place }}</div>
-                            <div class="col-sm-6 " >{{pos.job_position}} </div>
-                            <div class="col-sm-2 " >{{pos.income}}</div>
+                        <div class="row" style="columns: 3 auto;">
+                           
+
+                                    <div class="col-sm-4  text-nowrap"  style="min-height: 10px;">{{ pos.work_place }}</div>
+                             
+
+                                    <div class="col-sm-6  text-nowrap" style="min-height: 10px;" >{{pos.job_position}} </div>
+                             
+
+                                    <div class="col-sm-2  text-nowrap" style = "text-align:right;min-height: 10px;" >{{pos.income |intcomma }}</div>
+                               
                         </div>
                         {% endfor %}
                                 
                     </td>
                     {% if options %}
                         <td>
-                            <button class="btn btn-primary btn-link dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-tasks"></i></button>
+                            <button class="btn btn-primary btn-link dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="{{options.icon}}"></i></button>
                             <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(140px, 43px, 0px); top: 0px; left: 0px; will-change: transform;">
-                                {% for option in options%}	
+                                {% for option in options.menu %}	
                                 <a class="dropdown-item" href="{% url option.url  row.employ_id  %}"> 
                                 <div class="row">
                                     <div></div>
