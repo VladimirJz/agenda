@@ -23,9 +23,9 @@
 							<h4 class="card-title">Buscar:
 
                             </h4>
-                            <nav class="navbar navbar-header navbar-expand-lg" data-background-color="white">							
+                            <nav class="navbar  navbar-expand-lg" data-background-color="white">							
                                 <div class="container-fluid">
-                                    <div class="collapse" id="search-nav">
+                                    <div class="" id="search-nav">
                                         <form  id="search-form" method="POST" name='search_form' class="navbar-left navbar-form nav-search mr-md-3">
                                             {% csrf_token %}
                                             
@@ -40,14 +40,7 @@
                                        
                                         </form>
                                     </div>
-                                    <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
-                                        <li class="nav-item toggle-nav-search hidden-caret">
-                                            <a class="nav-link" data-toggle="collapse" href="#search-nav" role="button" aria-expanded="false" aria-controls="search-nav">
-                                                <i class="fa fa-search"></i>
-                                            </a>
-                                        </li>
-                                        
-                                    </ul>
+
                                 </div>       
                             </nav>
 						</div>
@@ -80,9 +73,9 @@
 
                    
                     <div class="row"> 
-                        <div class="col-sm-4">Centro de Trabajo</div>
-                        <div class="col-sm-6">Plaza</div>
-                        <div class="col-sm-2"  style = "text-align:center;" >Ingreso</div>
+                        <div class="col-sm-12 col-md-12 col-xs-12 col-lg-4" style = "text-align:center;">Centro de Trabajo</div>
+                        <div class="col-sm-12 col-md-12 col-xs-12 col-lg-4 " style = "text-align:center;" >Plaza</div>
+                        <div class="col-sm-12 col-md-12 col-xs-12 col-lg-4"  style = "text-align:center;" >Ingreso</div>
 
                     </div>
                       
@@ -102,13 +95,13 @@
                         <div class="row" style="columns: 3 auto;">
                            
 
-                                    <div class="col-sm-4  text-nowrap"  style="min-height: 10px;">{{ pos.work_place }}</div>
+                                    <div class="col-xs-12 col-md-12  col-lg-4 text-nowrap"  style="min-height: 10px;">{{ pos.work_place }}</div>
                              
 
-                                    <div class="col-sm-6  text-nowrap" style="min-height: 10px;" >{{pos.job_position}} </div>
+                                    <div class="col-xs-12 col-md-12  col-lg-6 text-nowrap" style="min-height: 10px;" >{{pos.job_position}} </div>
                              
 
-                                    <div class="col-sm-2  text-nowrap" style = "text-align:right;min-height: 10px;" >{{pos.income |intcomma }}</div>
+                                    <div class="col-xs-12 col-md-12 col-lg-2 text-nowrap" style = "text-align:right;min-height: 10px;" >{{pos.income |intcomma }}</div>
                                
                         </div>
                         {% endfor %}
@@ -116,7 +109,7 @@
                     </td>
                     {% if options %}
                         <td>
-                            <button class="btn btn-primary btn-link dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="{{options.icon}}"></i></button>
+                            <button class="btn btn-primary btn-link dropdown-toggle"  style="margin:0;padding:0;" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="{{options.icon}}"></i></button>
                             <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(140px, 43px, 0px); top: 0px; left: 0px; will-change: transform;">
                                 {% for option in options.menu %}	
                                 <a class="dropdown-item" href="{% url option.url  row.employ_id  %}"> 

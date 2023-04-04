@@ -59,7 +59,7 @@
     <div class="card-body">
         {% for event in events %}
         <div class="row">
-        <div class="col">
+        <div class="col-md-10 col-lg-10">
             <a href="{% url 'appointment_detail' event.id %}"  style="color: inherit;">
                 <div class="row">
  
@@ -94,7 +94,7 @@
                 </div> <!-- row-->
             </a>
         </div> <!-- col -->
-        <div class="col-1">
+        <div class="col-md-2 col-lg-2">
             {% if options %}
                                    
                                     <button class="badge badge-{% if event.status == 1  %}success{% elif event.status == 2%}warning{% else %}danger{% endif %} dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="{{options.icon}}"></i>{{  event.get_status_display  }}</button>
