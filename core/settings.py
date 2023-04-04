@@ -83,24 +83,24 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': 'db.sqlite3',
+#     }
+# }
+
+
+DATABASES={
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'db.sqlite3',
-    }
-}
-
-
-# DATABASES={
-# 'default': {
-#           'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#           'NAME': 'app',
-#           'USER': 'app',
-#           'PASSWORD': '#1Qazse4#',
-#           'HOST': 'localhost',
-#           'PORT': '5432'
-#           },
-#   }
+           'ENGINE': 'django.db.backends.mysql',
+           'NAME': 'agenda',
+           'USER': 'app',
+           'PASSWORD': '#1For54mot',
+           'HOST': 'localhost',
+           'PORT': '3306'
+           },
+   }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
