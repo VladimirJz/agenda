@@ -37,24 +37,15 @@
 							</div>
 						</li>
 						<!-- menu -->
-						<li class="nav-item {% if app == 'employes' %} active {% endif %}">
-							<a data-toggle="collapse" href="#employes" class="collapsed" aria-expanded="false">
-								<i class="fas fa-user" ></i>
-								<p>Empleados</p>
-								<span class="caret"></span>
+						<li class="nav-item  {% if app == 'employes' %} active {% endif %}">
+							<a  href="{% url 'employ_search' %}" class="collapsed" aria-expanded="false">
+								<i class="fas fa-user"></i>
+								<p>Consulta</p>
+								
 							</a>
-							<div class="collapse" id="employes">
-								<ul class="nav nav-collapse">
-									<!-- submenu item -->
-									<li>
-										<a href="{%  url 'employ_search' %}">
-											<span class="sub-item">Consulta</span>
-										</a>
-									</li>
-									
-								</ul>
-							</div>
+							
 						</li>
+						
 
 
 						<!-- <li class="nav-section">

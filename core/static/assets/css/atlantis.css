@@ -88,7 +88,7 @@ body, h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, p, .navbar, .brand, 
   font-family: 'Lato', sans-serif; }
 
 body {
-  font-size: 14px;
+  font-size: 11px;
   color: #575962; }
 
 a {
@@ -121,7 +121,7 @@ h6,
   font-size: .825rem; }
 
 p {
-  font-size: 14px;
+  font-size: 12px;
   line-height: 1.82;
   margin-bottom: 1rem;
   word-break: break-word; }
@@ -132,7 +132,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     color: inherit; }
 
 small, .small {
-  font-size: 13px; }
+  font-size: 11px; }
 
 b, .b, strong, .strong {
   font-weight: 600; }
@@ -2323,9 +2323,9 @@ label {
   padding-top: 0px;
   padding-bottom: 0px; }
   .card-tasks .card-body .table td {
-    font-size: 13px; }
+    font-size: 11px; }
     .card-tasks .card-body .table td .btn {
-      font-size: 15px;
+      font-size: 13px;
       opacity: 0.7;
       transition: all .3s; }
     .card-tasks .card-body .table td:hover .btn {
@@ -3618,7 +3618,7 @@ label.error {
   font-weight: 600; }
 
 .table td, .table th {
-  font-size: 14px;
+  font-size: 12px;
   border-top-width: 0px;
   border-bottom: 1px solid;
   border-color: #ebedf2 !important;

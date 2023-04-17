@@ -68,45 +68,47 @@
                     <th>Empleado</th>
                     <th>Nombre</th>
                     <th>Filiación</th>
+                    <th>Alta</th>
                     <th>Nomina</th>
-                    <th>
+                    <!-- <th>
 
                    
                     <div class="row"> 
-                        <div class="col-sm-12 col-md-12 col-xs-12 col-lg-4" style = "text-align:center;">Centro de Trabajo</div>
-                        <div class="col-sm-12 col-md-12 col-xs-12 col-lg-4 " style = "text-align:center;" >Plaza</div>
-                        <div class="col-sm-12 col-md-12 col-xs-12 col-lg-4"  style = "text-align:center;" >Ingreso</div>
+                        <div class="col-sm-12 col-md-12 col-xs-12 col-lg-4" style = "text-align:center;"><p style='font-size: 0.875em'>Centro de Trabajo</p></div>
+                        <div class="col-sm-12 col-md-12 col-xs-12 col-lg-4 " style = "text-align:center;" ><p style='font-size: 0.875em'>Plaza</p></div>
+                        <div class="col-sm-12 col-md-12 col-xs-12 col-lg-4"  style = "text-align:center;" ><p style='font-size: 0.875em'>Ingreso</p></div>
 
                     </div>
                       
-                    </th>
+                    </th> -->
                     <th> . . .</th>
                 </tr>
             </thead>
             <tbody>
                 {% for row in results %}
-                <tr>
+                <tr class="accordion-toggle" data-toggle="collapse" data-target="#detail-{{ row.employ_id }}">
                     <td>{{ row.employ_id }}</td>
                     <td><b>{{ row.last_name }}</b> &nbsp; {{row.names}}  </td>
                     <td>{{ row.RFC }}</td>
+                    <td>{{ row.enroll_date }}</td>
                     <td>{{ row.company }}</td>
-                    <td>
-                        {% for pos in row.positions%}
-                        <div class="row" style="columns: 3 auto;">
+                    <!-- <td> -->
+                    <!-- {%  for pos in row.positions%} -->
+                    <!-- <div class="row" style="columns: 3 auto;">
                            
 
-                                    <div class="col-xs-12 col-md-12  col-lg-4 text-nowrap"  style="min-height: 10px;">{{ pos.work_place }}</div>
+                                    <div class="col-xs-12 col-md-12  col-lg-4 text-nowrap"  style="min-height: 10px;"><p style='font-size: 0.875em'>{{ pos.work_place }}</p></div>
                              
 
-                                    <div class="col-xs-12 col-md-12  col-lg-6 text-nowrap" style="min-height: 10px;" >{{pos.job_position}} </div>
+                                    <div class="col-xs-12 col-md-12  col-lg-6 text-nowrap" style="min-height: 10px;" ><p style='font-size: 0.875em'>{{pos.job_position}}</p> </div>
                              
 
-                                    <div class="col-xs-12 col-md-12 col-lg-2 text-nowrap" style = "text-align:right;min-height: 10px;" >{{pos.income |intcomma }}</div>
+                                    <div class="col-xs-12 col-md-12 col-lg-2 text-nowrap" style = "text-align:right;min-height: 10px;" ><p style='font-size: 0.875em'>{{pos.income |intcomma }}</p></div>
                                
-                        </div>
-                        {% endfor %}
+                        </div> -->
+                        <!-- {% endfor %} -->
                                 
-                    </td>
+                    <!-- </td> -->
                     {% if options %}
                         <td>
                             <button class="btn btn-primary btn-link dropdown-toggle"  style="margin:0;padding:0;" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="{{options.icon}}"></i></button>
@@ -131,12 +133,29 @@
                         </td>
                     {% endif %}
                 </tr>
-
-                {% endfor %}
+                <tr>
+                    
+                    <td colspan="3" class="accordion-body collapse" id="detail-{{ row.employ_id }}">
+                      <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Centro de Trabajo</th><th>Plaza</th><th>Ingreso</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {%  for pos in row.positions%}
+                            <tr>
+                                
+                                <td>{{ pos.work_place }}</td><td>{{pos.job_position}}</td><td>{{pos.income |intcomma }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                      </table>
+                      </td>
+                </tr>
+                    {% endfor %}
             </tbody>
         </table>
-
-
 
 
          

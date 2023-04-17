@@ -18,7 +18,7 @@ class DashboardView(TemplateView):
      def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
       
-        next_events=Appointment.objects.all()
+        next_events=Appointment.objects.all()[:5]
         print(next_events)
         menu='dashboard'
         context['app']='home'
