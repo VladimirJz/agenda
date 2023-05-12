@@ -58,7 +58,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'core.urls'
 LOGIN_REDIRECT_URL = "home"  # Route defined in home/urls.py
-LOGOUT_REDIRECT_URL = "home"  # Route defined in home/urls.py
+LOGOUT_REDIRECT_URL = "/"  # Route defined in home/urls.py
 TEMPLATE_DIR = os.path.join(CORE_DIR, "templates")  # ROOT dir for templates
 
 TEMPLATES = [
@@ -83,24 +83,24 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
-     'default': {
-         'ENGINE': 'django.db.backends.sqlite3',
-         'NAME': 'db.sqlite3',
-     }
- }
 
 
-# DATABASES={
-#     'default': {
-#            'ENGINE': 'django.db.backends.mysql',
-#            'NAME': 'agenda',
-#            'USER': 'app',
-#            'PASSWORD': '#1For54mot',
-#            'HOST': 'localhost',
-#            'PORT': '3306'
-#            },
-#    }
+
+DATABASES={
+    'default1': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'agenda',
+        'USER': 'app',
+        'PASSWORD': '#1For54mot',
+        'HOST': 'localhost',
+        'PORT': '3306'
+        },
+        'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'agenda',
+   
+        },
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators

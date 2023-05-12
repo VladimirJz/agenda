@@ -7,6 +7,8 @@ Copyright (c) 2019 - present AppSeed.us
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from .forms import LoginForm, SignUpForm
+from apps.company.models import UserProfile
+import requests
 
 
 def login_view(request):
@@ -22,6 +24,32 @@ def login_view(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
+                print(user)
+                print(user.id)
+                profile=UserProfile.objects.filter(User_id=user.id).select_related()
+                for p in profile:
+                    print(p)
+                    print(type(p))
+                    secret=p.APISecret
+                    print(secret)
+                    user_name=p.User.username
+                    secret=p.APISecret
+                data =dict()
+                data['username']=user_name
+                data['password']=secret
+                r=requests.post('http://10.186.11.3:8000/apiv1/auth/login/',data=data)
+                response=r.json()
+                token=response['token'] 
+                print(token)
+                session = UserProfile.objects.filter(User_id=user.id)[0]
+                session.Token=token
+                session.save()
+
+                #user_name=profile[0]['User__username']
+                #secret=profile[0]['APISecret']
+
+                print(secret)
+                print(user_name)
                 return redirect("/home/")
             else:
                 msg = 'Credenciales no valida'

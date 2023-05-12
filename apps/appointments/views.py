@@ -2,6 +2,7 @@ from django.shortcuts import render,HttpResponseRedirect,redirect
 from datetime import datetime,timedelta
 from django.views.generic import TemplateView,CreateView,DeleteView,UpdateView,DetailView,ListView
 from apps.appointments.models import Appointment
+from apps.company.models import UserProfile
 from .forms import AppointmentForm
 import requests
 # Create your views here.
@@ -32,8 +33,11 @@ class AppoinmentCreateView(CreateView):
         #print(self.request.POST)
         empleado_id=self.kwargs['id']
         default={}
+        session=UserProfile.objects.filter(User_id=self.request.user.id).values('Token')[0]
+        token=session['Token']
+        headers={'Authorization':'Token '+ token}
         try:
-            r= requests.get(f"http://10.186.2.27:8000/apiv1/employ/{empleado_id}")
+            r= requests.get(f"http://10.186.11.3:8000/apiv1/employ/{empleado_id}",headers=headers)
             print(r.json())
             result=r.json()
         except :

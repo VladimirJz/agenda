@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.urls import reverse
+from apps.company.models import UserProfile
 from apps.appointments.models import Appointment
 import requests
 
@@ -46,14 +47,16 @@ class EmploySearchView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         options={'icon':'fas fa-tasks','text':'','menu':[{'url':'appointment_new','icon':'far fa-calendar-plus','label':'Cita'},]}
-        
+        session=UserProfile.objects.filter(User_id=self.request.user.id).values('Token')[0]
+        token=session['Token']
+        headers={'Authorization':'Token '+ token}
         print(kwargs)
         text=''
         if( kwargs ):
             text=kwargs['text']
             if len(text.strip().split(' '))>1:
                 try:
-                    r= requests.get(f"http://10.186.2.27:8000/apiv1/employ/?name={text}")
+                    r= requests.get(f"http://10.186.11.3:8000/apiv1/employ/?name={text}",headers=headers)
                     print(r.json())
                     context["results"]=r.json()
                 except :

@@ -62,7 +62,7 @@
     <!-- TABLE -->
 
     <div class="table-responsive">
-        <table id="basic-datatables" class="display table table-striped table-hover" >
+        <table id="basic-datatables" class="display table table-hover" >
             <thead>
                 <tr>
                     <th>Empleado</th>
@@ -87,8 +87,13 @@
             <tbody>
                 {% for row in results %}
                 <tr class="accordion-toggle" data-toggle="collapse" data-target="#detail-{{ row.employ_id }}">
+                    
                     <td>{{ row.employ_id }}</td>
-                    <td><b>{{ row.last_name }}</b> &nbsp; {{row.names}}  </td>
+                    <td><b>{{ row.last_name }}</b> &nbsp; {{row.names}}  
+                        {% if not  row.positions %}
+                    <i class="fas fa-user-slash"></i>
+                        {% endif %}
+                    </td>
                     <td>{{ row.RFC }}</td>
                     <td>{{ row.enroll_date }}</td>
                     <td>{{ row.company }}</td>
@@ -133,10 +138,11 @@
                         </td>
                     {% endif %}
                 </tr>
+                {% if row.positions %}
                 <tr>
                     
                     <td colspan="3" class="accordion-body collapse" id="detail-{{ row.employ_id }}">
-                      <table class="table">
+                      <table class="table table-bordered">
                         <thead>
                             <tr>
                                 <th>Centro de Trabajo</th><th>Plaza</th><th>Ingreso</th>
@@ -153,6 +159,7 @@
                       </table>
                       </td>
                 </tr>
+                {% endif %}
                     {% endfor %}
             </tbody>
         </table>

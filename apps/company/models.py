@@ -29,6 +29,8 @@ class Office(models.Model):
 class UserProfile(models.Model):
     User = models.OneToOneField(User, on_delete=models.CASCADE)
     BirthDate = models.DateField(null=True, blank=True)
+    APISecret=models.CharField(max_length=20,verbose_name='API Secret',help_text='Secret',default='',blank=True)
+    Token=models.CharField(max_length=200,verbose_name='Token',blank=True,default='')
 
     
     @receiver(post_save, sender=User)
