@@ -37,7 +37,7 @@ def login_view(request):
                 data =dict()
                 data['username']=user_name
                 data['password']=secret
-                r=requests.post('http://10.186.11.3:8000/apiv1/auth/login/',data=data)
+                r=requests.post('http://api.ieepo.gob.mx:8000/apiv1/auth/login/',data=data)
                 response=r.json()
                 token=response['token'] 
                 print(token)

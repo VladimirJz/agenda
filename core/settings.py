@@ -18,7 +18,7 @@ SECRET_KEY = config('SECRET_KEY', default='S#perS3crEt_1122')
 DEBUG = config('DEBUG', default=True, cast=bool)
 
 # load production server from .env
-ALLOWED_HOSTS        = ['localhost', 'localhost:85', '127.0.0.1','10.186.22.34', config('SERVER', default='127.0.0.1')]
+ALLOWED_HOSTS        = ['localhost','10.186.22.44', 'localhost:85', '127.0.0.1','10.186.22.34', config('SERVER', default='127.0.0.1')]
 CSRF_TRUSTED_ORIGINS = ['http://localhost:85', 'http://127.0.0.1', 'https://' + config('SERVER', default='127.0.0.1')]
 
 # Application definition
@@ -84,17 +84,27 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 
+REST_FRAMEWORK = {
+    
+
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+        'drf_excel.renderers.XLSXRenderer',
+    ),
+}
+
 
 
 DATABASES={
-    'default1': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'agenda',
-        'USER': 'app',
-        'PASSWORD': '#1For54mot',
-        'HOST': 'localhost',
-        'PORT': '3306'
-        },
+    # 'default1': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'agenda',
+    #     'USER': 'app',
+    #     'PASSWORD': '#1For54mot',
+    #     'HOST': 'localhost',
+    #     'PORT': '3306'
+    #     },
         'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': 'agenda',

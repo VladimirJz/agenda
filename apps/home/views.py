@@ -56,7 +56,7 @@ class EmploySearchView(TemplateView):
             text=kwargs['text']
             if len(text.strip().split(' '))>1:
                 try:
-                    r= requests.get(f"http://10.186.11.3:8000/apiv1/employ/?name={text}",headers=headers)
+                    r= requests.get(f"http://api.ieepo.gob.mx:8000/apiv1/employ/?name={text}",headers=headers)
                     print(r.json())
                     context["results"]=r.json()
                 except :

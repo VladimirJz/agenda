@@ -37,7 +37,7 @@ class AppoinmentCreateView(CreateView):
         token=session['Token']
         headers={'Authorization':'Token '+ token}
         try:
-            r= requests.get(f"http://10.186.11.3:8000/apiv1/employ/{empleado_id}",headers=headers)
+            r= requests.get(f"http://api.ieepo.gob.mx:8000/apiv1/employ/{empleado_id}",headers=headers)
             print(r.json())
             result=r.json()
         except :
